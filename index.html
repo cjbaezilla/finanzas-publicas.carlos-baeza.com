@@ -1161,6 +1161,127 @@
             // Actualizar indicadores estructurales
             updateIndicadoresEstructurales(year);
             updateIndicadoresAdicionales(year);
+
+            // Actualizar indicadores de Gobierno General
+            updateGobiernoGeneral(year);
+
+            // Actualizar indicadores de Empresas Públicas
+            updateEmpresasPublicas(year);
+
+            // Actualizar indicadores de Deuda y Activos
+            updateDeudaActivos(year);
+
+            // Actualizar todas las tablas de detalle
+            updateDetailTables(year);
+        }
+
+        // Nueva función para actualizar Gobierno General
+        function updateGobiernoGeneral(year) {
+            const yearIndex = data.gobiernoGeneral.years.indexOf(parseInt(year));
+            if (yearIndex === -1) return;
+
+            const previousYearIndex = yearIndex - 1;
+            const yearData = macroData[year];
+
+            // Actualizar KPIs de Gobierno General
+            document.getElementById('ingresosConsolidados').textContent = formatCurrency(data.gobiernoGeneral.ingresos[yearIndex]);
+            document.getElementById('gastosConsolidados').textContent = formatCurrency(data.gobiernoGeneral.gastos[yearIndex]);
+            
+            const balanceMunicipal = data.municipalidades.ingresos[yearIndex] - data.municipalidades.gastos[yearIndex];
+            document.getElementById('balanceMunicipal').textContent = formatCurrency(balanceMunicipal);
+
+            // Calcular y actualizar variaciones
+            if (previousYearIndex >= 0) {
+                const ingresosChange = calculateChange(data.gobiernoGeneral.ingresos[yearIndex], data.gobiernoGeneral.ingresos[previousYearIndex]);
+                const gastosChange = calculateChange(data.gobiernoGeneral.gastos[yearIndex], data.gobiernoGeneral.gastos[previousYearIndex]);
+                const balanceChange = calculateChange(balanceMunicipal, 
+                    data.municipalidades.ingresos[previousYearIndex] - data.municipalidades.gastos[previousYearIndex]);
+
+                // Actualizar indicadores de tendencia
+                document.querySelector('#ingresosConsolidados + .trend-indicator').textContent = `${ingresosChange}% vs ${year - 1}`;
+                document.querySelector('#gastosConsolidados + .trend-indicator').textContent = `${gastosChange}% vs ${year - 1}`;
+                document.querySelector('#balanceMunicipal + .trend-indicator').textContent = `${balanceChange}% vs ${year - 1}`;
+            }
+        }
+
+        // Nueva función para actualizar Empresas Públicas
+        function updateEmpresasPublicas(year) {
+            const yearIndex = data.codelco.years.indexOf(parseInt(year));
+            if (yearIndex === -1) return;
+
+            // Actualizar KPIs de CODELCO
+            document.getElementById('codelcoUtilidad').textContent = formatCurrency(data.codelco.utilidad[yearIndex]);
+            
+            // Actualizar KPIs de ENAP
+            document.getElementById('enapUtilidad').textContent = formatCurrency(data.enap.utilidad[yearIndex]);
+
+            // Calcular total del sector
+            const utilidadTotal = data.codelco.utilidad[yearIndex] + data.enap.utilidad[yearIndex];
+            document.getElementById('sectorUtilidad').textContent = formatCurrency(utilidadTotal);
+
+            // Actualizar variaciones si hay año anterior
+            if (yearIndex > 0) {
+                const codelcoChange = calculateChange(data.codelco.utilidad[yearIndex], data.codelco.utilidad[yearIndex - 1]);
+                const enapChange = calculateChange(data.enap.utilidad[yearIndex], data.enap.utilidad[yearIndex - 1]);
+                const sectorChange = calculateChange(utilidadTotal, 
+                    data.codelco.utilidad[yearIndex - 1] + data.enap.utilidad[yearIndex - 1]);
+
+                // Actualizar indicadores de tendencia
+                document.querySelector('#codelcoUtilidad + .trend-indicator').textContent = `${codelcoChange}% vs ${year - 1}`;
+                document.querySelector('#enapUtilidad + .trend-indicator').textContent = `${enapChange}% vs ${year - 1}`;
+                document.querySelector('#sectorUtilidad + .trend-indicator').textContent = `${sectorChange}% vs ${year - 1}`;
+            }
+        }
+
+        // Nueva función para actualizar Deuda y Activos
+        function updateDeudaActivos(year) {
+            const yearIndex = data.activosFinancieros.years.indexOf(parseInt(year));
+            if (yearIndex === -1) return;
+
+            // Verificar si estamos en la pestaña de Deuda y Activos
+            const deudaActivosTab = document.getElementById('deuda-activos');
+            const isDeudaActivosTabActive = deudaActivosTab && deudaActivosTab.classList.contains('active');
+
+            // Solo actualizar si estamos en la pestaña correcta o si la pestaña no existe
+            if (!deudaActivosTab || isDeudaActivosTabActive) {
+                // Actualizar KPIs de Deuda y Activos con verificación de elementos
+                const deudaInternaElement = document.getElementById('deudaInterna');
+                const deudaExternaElement = document.getElementById('deudaExterna');
+                const activosFinancierosElement = document.getElementById('activosFinancieros');
+                const posicionNetaElement = document.getElementById('posicionNeta');
+
+                if (deudaInternaElement) {
+                    deudaInternaElement.textContent = formatCurrency(data.activosFinancieros.pasivos[yearIndex] * 0.729);
+                }
+                if (deudaExternaElement) {
+                    deudaExternaElement.textContent = formatCurrency(data.activosFinancieros.pasivos[yearIndex] * 0.271);
+                }
+                if (activosFinancierosElement) {
+                    activosFinancierosElement.textContent = formatCurrency(data.activosFinancieros.activos[yearIndex]);
+                }
+                if (posicionNetaElement) {
+                    posicionNetaElement.textContent = formatCurrency(data.activosFinancieros.patrimonioNeto[yearIndex]);
+                }
+
+                // Calcular variaciones si hay año anterior
+                if (yearIndex > 0) {
+                    const activosChange = calculateChange(data.activosFinancieros.activos[yearIndex], 
+                        data.activosFinancieros.activos[yearIndex - 1]);
+                    const patrimonioChange = calculateChange(Math.abs(data.activosFinancieros.patrimonioNeto[yearIndex]), 
+                        Math.abs(data.activosFinancieros.patrimonioNeto[yearIndex - 1]));
+
+                    // Actualizar porcentajes y tendencias con verificación de elementos
+                    const activosTrendElement = document.querySelector('#activosFinancieros + .trend-indicator');
+                    const posicionNetaTrendElement = document.querySelector('#posicionNeta + .trend-indicator');
+
+                    if (activosTrendElement) {
+                        activosTrendElement.textContent = `${activosChange}% vs ${year - 1}`;
+                    }
+                    if (posicionNetaTrendElement) {
+                        posicionNetaTrendElement.textContent = `${patrimonioChange}% vs ${year - 1}`;
+                    }
+                }
+            }
         }
 
         // Función para actualizar indicadores estructurales
@@ -1431,12 +1552,14 @@
             const tipoGobierno = document.getElementById('tipoGobiernoFilter').value;
             updateKPIs(year);
             updateCharts(year, tipoGobierno);
+            updateDetailTables(year, tipoGobierno);
         });
 
         document.getElementById('tipoGobiernoFilter').addEventListener('change', function(e) {
             const year = document.getElementById('yearFilter').value;
             const tipoGobierno = e.target.value;
             updateCharts(year, tipoGobierno);
+            updateDetailTables(year, tipoGobierno);
         });
 
         // Inicializar el dashboard
@@ -1446,6 +1569,7 @@
             const initialTipoGobierno = document.getElementById('tipoGobiernoFilter').value;
             updateKPIs(initialYear);
             updateCharts(initialYear, initialTipoGobierno);
+            updateDetailTables(initialYear, initialTipoGobierno);
         });
 
         // Inicializar todos los tooltips de Bootstrap
@@ -1454,33 +1578,101 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
-        // Nueva función para actualizar las tablas de detalle
-        function updateDetailTables(year) {
+        // Función para actualizar las tablas de detalle
+        function updateDetailTables(year, tipoGobierno = 'total') {
+            const yearIndex = data.years.indexOf(parseInt(year));
+            if (yearIndex === -1) return;
+
+            // Aplicar factor según tipo de gobierno
+            let factor = 1;
+            switch(tipoGobierno) {
+                case 'presupuestario':
+                    factor = 0.92;
+                    break;
+                case 'extrapresupuestario':
+                    factor = 0.08;
+                    break;
+                default:
+                    factor = 1;
+            }
+
             // Actualizar tabla de ingresos tributarios
             const ingresosTributariosTable = document.getElementById('ingresosTributariosTable');
-            ingresosTributariosTable.innerHTML = data.ingresosTributarios.labels.map((label, index) => `
-                <tr>
-                    <td>${label}</td>
-                    <td>${formatCurrency(data.ingresosTributarios.data[index])}</td>
-                    <td>${((data.ingresosTributarios.data[index] / data.ingresosTributarios.data.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%</td>
-                    <td class="${Math.random() > 0.5 ? 'text-success' : 'text-danger'}">
-                        ${(Math.random() * 10 - 5).toFixed(1)}%
-                    </td>
-                </tr>
-            `).join('');
+            if (ingresosTributariosTable) {
+                const totalIngresos = data.ingresosTributarios.data.reduce((a, b) => a + b, 0) * factor;
+                ingresosTributariosTable.innerHTML = data.ingresosTributarios.labels.map((label, index) => {
+                    const monto = data.ingresosTributarios.data[index] * factor;
+                    const porcentaje = ((monto / totalIngresos) * 100).toFixed(1);
+                    const variacion = yearIndex > 0 ? 
+                        calculateChange(monto, data.ingresosTributarios.data[index] * factor) : 
+                        '0.0';
+                    return `
+                        <tr>
+                            <td>${label}</td>
+                            <td>${formatCurrency(monto)}</td>
+                            <td>${porcentaje}%</td>
+                            <td class="${parseFloat(variacion) >= 0 ? 'text-success' : 'text-danger'}">
+                                ${variacion}%
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
 
             // Actualizar tabla de gastos funcionales
             const gastosFuncionalesTable = document.getElementById('gastosFuncionalesTable');
-            gastosFuncionalesTable.innerHTML = data.gastosFuncionales.labels.map((label, index) => `
-                <tr>
-                    <td>${label}</td>
-                    <td>${formatCurrency(data.gastosFuncionales.data[index])}</td>
-                    <td>${((data.gastosFuncionales.data[index] / data.gastosFuncionales.data.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%</td>
-                    <td class="${Math.random() > 0.5 ? 'text-success' : 'text-danger'}">
-                        ${(Math.random() * 10 - 5).toFixed(1)}%
-                    </td>
-                </tr>
-            `).join('');
+            if (gastosFuncionalesTable) {
+                const totalGastos = data.gastosFuncionales.data.reduce((a, b) => a + b, 0) * factor;
+                gastosFuncionalesTable.innerHTML = data.gastosFuncionales.labels.map((label, index) => {
+                    const monto = data.gastosFuncionales.data[index] * factor;
+                    const porcentaje = ((monto / totalGastos) * 100).toFixed(1);
+                    const variacion = yearIndex > 0 ? 
+                        calculateChange(monto, data.gastosFuncionales.data[index] * factor) : 
+                        '0.0';
+                    return `
+                        <tr>
+                            <td>${label}</td>
+                            <td>${formatCurrency(monto)}</td>
+                            <td>${porcentaje}%</td>
+                            <td class="${parseFloat(variacion) >= 0 ? 'text-success' : 'text-danger'}">
+                                ${variacion}%
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Actualizar tabla de detalle municipal
+            const detalleMunicipalTable = document.getElementById('detalleMunicipalTable');
+            if (detalleMunicipalTable && data.municipalidades) {
+                const yearData = {
+                    ingresosPropios: data.municipalidades.ingresos[yearIndex] * 0.501,
+                    fondoComun: data.municipalidades.ingresos[yearIndex] * 0.338,
+                    transferencias: data.municipalidades.ingresos[yearIndex] * 0.161
+                };
+                const totalIngresos = Object.values(yearData).reduce((a, b) => a + b, 0);
+                
+                detalleMunicipalTable.innerHTML = Object.entries(yearData).map(([key, value]) => {
+                    const porcentaje = ((value / totalIngresos) * 100).toFixed(1);
+                    const variacion = yearIndex > 0 ? 
+                        calculateChange(value, data.municipalidades.ingresos[yearIndex - 1] * (key === 'ingresosPropios' ? 0.501 : key === 'fondoComun' ? 0.338 : 0.161)) : 
+                        '0.0';
+                    const label = key === 'ingresosPropios' ? 'Ingresos Propios' : 
+                                key === 'fondoComun' ? 'Fondo Común Municipal' : 
+                                'Transferencias';
+                    return `
+                        <tr>
+                            <td>${label}</td>
+                            <td>${formatCurrency(value)}</td>
+                            <td>${porcentaje}%</td>
+                            <td class="${parseFloat(variacion) >= 0 ? 'text-success' : 'text-danger'}">
+                                ${variacion}%
+                            </td>
+                            <td>${((value / macroData[year].pib) * 100).toFixed(1)}%</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
         }
 
         // Función para actualizar todos los gráficos
