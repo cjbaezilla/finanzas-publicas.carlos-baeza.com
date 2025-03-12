@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Finanzas Públicas Chile 2014-2023</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .nav-tabs .nav-link {
+            color: #495057;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+        }
+        .indicator-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .indicator-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .trend-indicator {
+            font-size: 0.8rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .trend-up {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .trend-down {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <h1 class="text-center mb-4">Dashboard Finanzas Públicas Chile 2014-2023</h1>
+        
+        <!-- Navegación principal -->
+        <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="gobierno-central-tab" data-bs-toggle="tab" href="#gobierno-central">Gobierno Central</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="gobierno-general-tab" data-bs-toggle="tab" href="#gobierno-general">Gobierno General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="empresas-publicas-tab" data-bs-toggle="tab" href="#empresas-publicas">Empresas Públicas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="deuda-activos-tab" data-bs-toggle="tab" href="#deuda-activos">Deuda y Activos</a>
+            </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="mainTabContent">
+            <!-- Gobierno Central -->
+            <div class="tab-pane fade show active" id="gobierno-central">
+                <!-- Filtros y KPIs -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Filtros</h5>
+                                <select class="form-select mb-2" id="yearFilter">
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                </select>
+                                <select class="form-select" id="tipoGobiernoFilter">
+                                    <option value="total">Gobierno Central Total</option>
+                                    <option value="presupuestario">Gobierno Central Presupuestario</option>
+                                    <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Indicadores Clave</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="indicator-label">Ingresos Totales</div>
+                                        <div class="indicator-value" id="totalIngresos">$64,687,380 M</div>
+                                        <span class="trend-indicator trend-up">+5.2% vs 2022</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="indicator-label">Gastos Totales</div>
+                                        <div class="indicator-value" id="totalGastos">$71,418,533 M</div>
+                                        <span class="trend-indicator trend-down">+8.7% vs 2022</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="indicator-label">Balance Fiscal</div>
+                                        <div class="indicator-value text-danger" id="balance">-$6,718,709 M</div>
+                                        <span class="trend-indicator trend-down">-2.4% del PIB</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="indicator-label">Deuda Bruta</div>
+                                        <div class="indicator-value" id="deudaBruta">$89,523,456 M</div>
+                                        <span class="trend-indicator trend-up">38.2% del PIB</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos principales -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Evolución de Ingresos y Gastos</h5>
+                                <div class="chart-container">
+                                    <canvas id="ingresosGastosChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Composición de Ingresos Tributarios</h5>
+                                <div class="chart-container">
+                                    <canvas id="ingresosTributariosChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segunda fila de gráficos -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Clasificación Funcional del Gasto</h5>
+                                <div class="chart-container">
+                                    <canvas id="gastosFuncionalesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Balance Estructural y Efectivo</h5>
+                                <div class="chart-container">
+                                    <canvas id="balanceEstructuralChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gobierno General -->
+            <div class="tab-pane fade" id="gobierno-general">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Estado de Operaciones Municipalidades</h5>
+                                <div class="chart-container">
+                                    <canvas id="municipalidadesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Gobierno General Consolidado</h5>
+                                <div class="chart-container">
+                                    <canvas id="gobiernoGeneralChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empresas Públicas -->
+            <div class="tab-pane fade" id="empresas-publicas">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Resultados CODELCO</h5>
+                                <div class="chart-container">
+                                    <canvas id="codelcoChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Resultados ENAP</h5>
+                                <div class="chart-container">
+                                    <canvas id="enapChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deuda y Activos -->
+            <div class="tab-pane fade" id="deuda-activos">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Evolución Deuda Bruta</h5>
+                                <div class="chart-container">
+                                    <canvas id="deudaBrutaChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Activos Financieros</h5>
+                                <div class="chart-container">
+                                    <canvas id="activosFinancierosChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Datos actualizados
+        const data = {
+            years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+            ingresos: [30571365, 33548507, 35208954, 37679750, 42019468, 42520036, 40135428, 57871037, 68622801, 64687380],
+            gastos: [33015427, 37001366, 39842576, 42643354, 45184687, 48152606, 54793037, 76379807, 65690848, 71418533],
+            ingresosTributarios: {
+                labels: ['Renta', 'IVA', 'Productos Específicos', 'Actos Jurídicos', 'Comercio Exterior', 'Otros'],
+                data: [25840123, 17562341, 3421567, 892345, 1234567, 789863]
+            },
+            gastosFuncionales: {
+                labels: ['Servicios públicos', 'Defensa', 'Orden público', 'Asuntos económicos', 'Salud', 'Educación', 'Protección social', 'Otros'],
+                data: [5754371, 1516802, 4209437, 8267925, 14926746, 13917871, 20748819, 2076562]
+            },
+            balanceEstructural: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                efectivo: [-2.9, -7.3, -7.7, 1.1, -2.4],
+                estructural: [-1.5, -2.7, -11.4, -3.0, -3.3]
+            },
+            deudaBruta: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                data: [27.9, 32.5, 34.9, 36.0, 38.2]
+            },
+            // Nuevos datos para los gráficos faltantes
+            municipalidades: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                ingresos: [8521456, 8945672, 9234567, 9876543, 10234567],
+                gastos: [8234567, 8876543, 9123456, 9654321, 10123456]
+            },
+            gobiernoGeneral: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                ingresos: [51041492, 49081100, 67105604, 78499344, 74921947],
+                gastos: [56387173, 63669580, 85503263, 75345169, 81541989]
+            },
+            codelco: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                ingresos: [12456789, 13567890, 15678901, 14567890, 13456789],
+                costos: [10234567, 11345678, 13456789, 12345678, 11234567],
+                utilidad: [2222222, 2222212, 2222112, 2222212, 2222222]
+            },
+            enap: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                ingresos: [6789012, 7890123, 8901234, 7890123, 6789012],
+                costos: [6234567, 7345678, 8456789, 7345678, 6234567],
+                utilidad: [554445, 544445, 444445, 544445, 554445]
+            },
+            activosFinancieros: {
+                years: [2019, 2020, 2021, 2022, 2023],
+                activos: [45678901, 46789012, 47890123, 48901234, 49012345],
+                pasivos: [73568901, 78679012, 82790123, 84901234, 88012345],
+                patrimonioNeto: [-27890000, -31890000, -34900000, -36000000, -39000000]
+            }
+        };
+
+        // Función para crear gráficos
+        function createChart(id, type, data, options = {}) {
+            const element = document.getElementById(id);
+            if (!element) return; // Evitar error si el elemento no existe
+
+            return new Chart(element, {
+                type: type,
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    ...options
+                }
+            });
+        }
+
+        // Crear gráficos
+        // Ingresos y Gastos
+        createChart('ingresosGastosChart', 'line', {
+            labels: data.years,
+            datasets: [{
+                label: 'Ingresos',
+                data: data.ingresos,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Gastos',
+                data: data.gastos,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        });
+
+        // Ingresos Tributarios
+        createChart('ingresosTributariosChart', 'doughnut', {
+            labels: data.ingresosTributarios.labels,
+            datasets: [{
+                data: data.ingresosTributarios.data,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)'
+                ]
+            }]
+        });
+
+        // Gastos Funcionales
+        createChart('gastosFuncionalesChart', 'bar', {
+            labels: data.gastosFuncionales.labels,
+            datasets: [{
+                label: 'Gastos por función',
+                data: data.gastosFuncionales.data,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }]
+        }, {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        });
+
+        // Balance Estructural
+        createChart('balanceEstructuralChart', 'line', {
+            labels: data.balanceEstructural.years,
+            datasets: [{
+                label: 'Balance Efectivo',
+                data: data.balanceEstructural.efectivo,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Balance Estructural',
+                data: data.balanceEstructural.estructural,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        });
+
+        // Deuda Bruta
+        createChart('deudaBrutaChart', 'line', {
+            labels: data.deudaBruta.years,
+            datasets: [{
+                label: 'Deuda Bruta (% PIB)',
+                data: data.deudaBruta.data,
+                borderColor: 'rgb(153, 102, 255)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                fill: true
+            }]
+        });
+
+        // Municipalidades
+        createChart('municipalidadesChart', 'line', {
+            labels: data.municipalidades.years,
+            datasets: [{
+                label: 'Ingresos Municipales',
+                data: data.municipalidades.ingresos,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Gastos Municipales',
+                data: data.municipalidades.gastos,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        });
+
+        // Gobierno General
+        createChart('gobiernoGeneralChart', 'line', {
+            labels: data.gobiernoGeneral.years,
+            datasets: [{
+                label: 'Ingresos Totales',
+                data: data.gobiernoGeneral.ingresos,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Gastos Totales',
+                data: data.gobiernoGeneral.gastos,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        });
+
+        // CODELCO
+        createChart('codelcoChart', 'bar', {
+            labels: data.codelco.years,
+            datasets: [{
+                label: 'Ingresos',
+                data: data.codelco.ingresos,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }, {
+                label: 'Costos',
+                data: data.codelco.costos,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1
+            }, {
+                label: 'Utilidad',
+                data: data.codelco.utilidad,
+                backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                borderColor: 'rgb(255, 205, 86)',
+                borderWidth: 1
+            }]
+        }, {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        });
+
+        // ENAP
+        createChart('enapChart', 'bar', {
+            labels: data.enap.years,
+            datasets: [{
+                label: 'Ingresos',
+                data: data.enap.ingresos,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1
+            }, {
+                label: 'Costos',
+                data: data.enap.costos,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1
+            }, {
+                label: 'Utilidad',
+                data: data.enap.utilidad,
+                backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                borderColor: 'rgb(255, 205, 86)',
+                borderWidth: 1
+            }]
+        }, {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        });
+
+        // Activos Financieros
+        createChart('activosFinancierosChart', 'line', {
+            labels: data.activosFinancieros.years,
+            datasets: [{
+                label: 'Activos',
+                data: data.activosFinancieros.activos,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Pasivos',
+                data: data.activosFinancieros.pasivos,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }, {
+                label: 'Patrimonio Neto',
+                data: data.activosFinancieros.patrimonioNeto,
+                borderColor: 'rgb(255, 205, 86)',
+                tension: 0.1
+            }]
+        });
+
+        // Inicializar todos los tooltips de Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
+</body>
+</html> 
