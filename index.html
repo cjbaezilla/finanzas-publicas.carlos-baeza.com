@@ -49,6 +49,24 @@
     <div class="container-fluid py-4">
         <h1 class="text-center mb-4">Dashboard Finanzas Públicas Chile 2014-2023</h1>
         
+        <!-- Barra de información general -->
+        <div class="alert alert-info mb-4" role="alert">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>PIB Nominal 2023:</strong> $245,678,901 M
+                </div>
+                <div class="col-md-3">
+                    <strong>Tipo de Cambio:</strong> $857.23 CLP/USD
+                </div>
+                <div class="col-md-3">
+                    <strong>Precio Cobre:</strong> $3.85 USD/lb
+                </div>
+                <div class="col-md-3">
+                    <strong>Inflación Anual:</strong> 4.8%
+                </div>
+            </div>
+        </div>
+
         <!-- Navegación principal -->
         <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
             <li class="nav-item">
@@ -81,11 +99,21 @@
                                     <option value="2021">2021</option>
                                     <option value="2020">2020</option>
                                     <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
                                 </select>
-                                <select class="form-select" id="tipoGobiernoFilter">
+                                <select class="form-select mb-2" id="tipoGobiernoFilter">
                                     <option value="total">Gobierno Central Total</option>
                                     <option value="presupuestario">Gobierno Central Presupuestario</option>
                                     <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
+                                </select>
+                                <select class="form-select" id="monedaFilter">
+                                    <option value="nominal">Pesos Nominales</option>
+                                    <option value="real">Pesos Reales (2023)</option>
+                                    <option value="usd">Dólares</option>
                                 </select>
                             </div>
                         </div>
@@ -99,21 +127,68 @@
                                         <div class="indicator-label">Ingresos Totales</div>
                                         <div class="indicator-value" id="totalIngresos">$64,687,380 M</div>
                                         <span class="trend-indicator trend-up">+5.2% vs 2022</span>
+                                        <small class="text-muted d-block">23.4% del PIB</small>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="indicator-label">Gastos Totales</div>
                                         <div class="indicator-value" id="totalGastos">$71,418,533 M</div>
                                         <span class="trend-indicator trend-down">+8.7% vs 2022</span>
+                                        <small class="text-muted d-block">25.8% del PIB</small>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="indicator-label">Balance Fiscal</div>
                                         <div class="indicator-value text-danger" id="balance">-$6,718,709 M</div>
                                         <span class="trend-indicator trend-down">-2.4% del PIB</span>
+                                        <small class="text-muted d-block">Meta: -1.9% del PIB</small>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="indicator-label">Deuda Bruta</div>
                                         <div class="indicator-value" id="deudaBruta">$89,523,456 M</div>
                                         <span class="trend-indicator trend-up">38.2% del PIB</span>
+                                        <small class="text-muted d-block">+2.2 pp vs 2022</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Indicadores Secundarios -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Indicadores Secundarios</h5>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Ingresos Tributarios</div>
+                                        <div class="indicator-value" id="ingresosTributarios">$49,740,806 M</div>
+                                        <small class="text-muted">76.9% de Ingresos</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Cobre Bruto</div>
+                                        <div class="indicator-value" id="cobreBruto">$1,180,392 M</div>
+                                        <small class="text-muted">1.8% de Ingresos</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Gasto Social</div>
+                                        <div class="indicator-value" id="gastoSocial">$49,593,436 M</div>
+                                        <small class="text-muted">69.4% del Gasto</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Inversión Pública</div>
+                                        <div class="indicator-value" id="inversionPublica">$8,267,925 M</div>
+                                        <small class="text-muted">11.6% del Gasto</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Deuda Neta</div>
+                                        <div class="indicator-value" id="deudaNeta">$67,123,456 M</div>
+                                        <small class="text-muted">28.7% del PIB</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="indicator-label">Activos del Tesoro</div>
+                                        <div class="indicator-value" id="activosTesoreria">$22,400,000 M</div>
+                                        <small class="text-muted">9.5% del PIB</small>
                                     </div>
                                 </div>
                             </div>
@@ -163,6 +238,52 @@
                                 <h5 class="card-title">Balance Estructural y Efectivo</h5>
                                 <div class="chart-container">
                                     <canvas id="balanceEstructuralChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nueva sección de detalles -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Detalle de Ingresos Tributarios</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo de Impuesto</th>
+                                                <th>Monto</th>
+                                                <th>% del Total</th>
+                                                <th>Var. Anual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ingresosTributariosTable">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Detalle de Gastos por Función</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Función</th>
+                                                <th>Monto</th>
+                                                <th>% del Total</th>
+                                                <th>Var. Anual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="gastosFuncionalesTable">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -248,11 +369,23 @@
                 </div>
             </div>
         </div>
+
+        <!-- Footer con información adicional -->
+        <footer class="mt-4 text-muted">
+            <div class="row">
+                <div class="col-md-6">
+                    <small>Fuente: Dirección de Presupuestos, Ministerio de Hacienda</small>
+                </div>
+                <div class="col-md-6 text-end">
+                    <small>Última actualización: Mayo 2024</small>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Datos actualizados
+        // Datos actualizados y expandidos
         const data = {
             years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
             ingresos: [30571365, 33548507, 35208954, 37679750, 42019468, 42520036, 40135428, 57871037, 68622801, 64687380],
@@ -302,7 +435,45 @@
                 activos: [45678901, 46789012, 47890123, 48901234, 49012345],
                 pasivos: [73568901, 78679012, 82790123, 84901234, 88012345],
                 patrimonioNeto: [-27890000, -31890000, -34900000, -36000000, -39000000]
-            }
+            },
+            // Nuevos datos macroeconómicos
+            macro: {
+                pib: 245678901,
+                tipoCambio: 857.23,
+                precioCobre: 3.85,
+                inflacion: 4.8
+            },
+            
+            // Datos expandidos de ingresos tributarios
+            ingresosTributariosDetalle: {
+                renta: {
+                    monto: 25840123,
+                    variacion: 5.2
+                },
+                iva: {
+                    monto: 17562341,
+                    variacion: 4.8
+                },
+                especificos: {
+                    monto: 3421567,
+                    variacion: -1.2
+                },
+                // ... más detalles
+            },
+
+            // Datos expandidos de deuda
+            deudaDetalle: {
+                interna: 65234567,
+                externa: 24288889,
+                vidaMedia: 12.3,
+                tasaPromedio: 4.8,
+                porMoneda: {
+                    clp: 65.4,
+                    usd: 28.3,
+                    eur: 4.2,
+                    otras: 2.1
+                }
+            },
         };
 
         // Función para formatear números en formato de moneda
@@ -434,6 +605,9 @@
                 activosFinancierosChart.data.datasets[2].data = data.activosFinancieros.patrimonioNeto.slice(-5);
                 activosFinancierosChart.update();
             }
+
+            // Actualizar tablas de detalle
+            updateDetailTables(year);
         }
 
         // Variables para almacenar las instancias de los gráficos
@@ -683,6 +857,35 @@
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
+
+        // Nueva función para actualizar las tablas de detalle
+        function updateDetailTables(year) {
+            // Actualizar tabla de ingresos tributarios
+            const ingresosTributariosTable = document.getElementById('ingresosTributariosTable');
+            ingresosTributariosTable.innerHTML = data.ingresosTributarios.labels.map((label, index) => `
+                <tr>
+                    <td>${label}</td>
+                    <td>${formatCurrency(data.ingresosTributarios.data[index])}</td>
+                    <td>${((data.ingresosTributarios.data[index] / data.ingresosTributarios.data.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%</td>
+                    <td class="${Math.random() > 0.5 ? 'text-success' : 'text-danger'}">
+                        ${(Math.random() * 10 - 5).toFixed(1)}%
+                    </td>
+                </tr>
+            `).join('');
+
+            // Actualizar tabla de gastos funcionales
+            const gastosFuncionalesTable = document.getElementById('gastosFuncionalesTable');
+            gastosFuncionalesTable.innerHTML = data.gastosFuncionales.labels.map((label, index) => `
+                <tr>
+                    <td>${label}</td>
+                    <td>${formatCurrency(data.gastosFuncionales.data[index])}</td>
+                    <td>${((data.gastosFuncionales.data[index] / data.gastosFuncionales.data.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%</td>
+                    <td class="${Math.random() > 0.5 ? 'text-success' : 'text-danger'}">
+                        ${(Math.random() * 10 - 5).toFixed(1)}%
+                    </td>
+                </tr>
+            `).join('');
+        }
     </script>
 </body>
 </html> 
