@@ -1,5 +1,8 @@
 # Dashboard de Finanzas Públicas de Chile
 
+![Screenshot 1](screen1.png)
+![Screenshot 2](screen2.png)
+
 ## Descripción General
 Este dashboard interactivo proporciona una visión integral de las finanzas públicas de Chile, abarcando el período 2014-2023. Diseñado para satisfacer las necesidades tanto de economistas y analistas financieros como de usuarios interesados en comprender la situación fiscal del país.
 
