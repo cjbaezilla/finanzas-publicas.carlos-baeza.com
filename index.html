@@ -52,17 +52,193 @@
         <!-- Barra de información general -->
         <div class="alert alert-info mb-4" role="alert">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <strong>PIB Nominal:</strong> <span id="pibNominal">$245,678,901 M</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <strong>Tipo de Cambio:</strong> <span id="tipoCambio">$857.23 CLP/USD</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <strong>Precio Cobre:</strong> <span id="precioCobre">$3.85 USD/lb</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <strong>Inflación Anual:</strong> <span id="inflacionAnual">4.8%</span>
+                </div>
+                <div class="col-md-2">
+                    <strong>Brecha PIB:</strong> <span id="brechaPIB">-1.2%</span>
+                </div>
+                <div class="col-md-2">
+                    <strong>Riesgo País:</strong> <span id="riesgoPais">150 bps</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de Indicadores de Sostenibilidad -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Indicadores de Sostenibilidad Fiscal</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="indicator-label">Proyección Deuda/PIB 2028</div>
+                                <div class="indicator-value" id="deudaPIBProyectado">42.5%</div>
+                                <span class="trend-indicator trend-up">+4.3pp vs actual</span>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Costo Promedio Deuda</div>
+                                <div class="indicator-value" id="costoDeuda">4.8%</div>
+                                <small class="text-muted d-block">Duración: 8.5 años</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Balance Primario</div>
+                                <div class="indicator-value" id="balancePrimario">-1.2% PIB</div>
+                                <small class="text-muted d-block">Meta: +0.5% PIB</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Multiplicador Fiscal</div>
+                                <div class="indicator-value" id="multiplicadorFiscal">0.9x</div>
+                                <small class="text-muted d-block">Rango: 0.6x - 1.2x</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de Análisis Estructural -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Análisis Estructural</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="indicator-label">PIB Potencial vs Efectivo</div>
+                                <div class="indicator-value">
+                                    <span id="pibPotencial">$251,234,567 M</span>
+                                    <small class="text-muted">vs</small>
+                                    <span id="pibEfectivo">$245,678,901 M</span>
+                                </div>
+                                <small class="text-muted d-block">Brecha: -2.2%</small>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="indicator-label">Precio Cobre Referencia</div>
+                                <div class="indicator-value">
+                                    <span id="cobreReferencia">$3.75 USD/lb</span>
+                                    <small class="text-muted">vs</small>
+                                    <span id="cobreSpot">$3.85 USD/lb</span>
+                                </div>
+                                <small class="text-muted d-block">Diferencia: +2.7%</small>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="indicator-label">Elasticidades Fiscales</div>
+                                <div class="indicator-value" id="elasticidadIngresos">1.2</div>
+                                <small class="text-muted d-block">Sensibilidad al ciclo</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de Calidad del Gasto -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Calidad y Eficiencia del Gasto</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="indicator-label">Rigidez Presupuestaria</div>
+                                <div class="indicator-value" id="rigidezGasto">78.5%</div>
+                                <small class="text-muted d-block">Gastos comprometidos</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Eficiencia Gasto Social</div>
+                                <div class="indicator-value" id="eficienciaGasto">0.85</div>
+                                <small class="text-muted d-block">Índice (0-1)</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Inversión/Gasto Total</div>
+                                <div class="indicator-value" id="inversionGasto">11.6%</div>
+                                <small class="text-muted d-block">Meta: 15%</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Retorno Social Inversión</div>
+                                <div class="indicator-value" id="retornoSocial">1.4x</div>
+                                <small class="text-muted d-block">Promedio proyectos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de Riesgos Fiscales -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Riesgos Fiscales</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="indicator-label">Pasivos Contingentes</div>
+                                <div class="indicator-value" id="pasivosContingentes">15.2% PIB</div>
+                                <small class="text-muted d-block">Garantías y otros</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Sensibilidad Ingresos</div>
+                                <div class="indicator-value" id="sensibilidadIngresos">
+                                    <small>USD 0.1/lb Cu = 0.15% PIB</small>
+                                </div>
+                                <small class="text-muted d-block">Impacto fiscal</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Riesgo Pensiones</div>
+                                <div class="indicator-value" id="riesgoPensiones">24.5% PIB</div>
+                                <small class="text-muted d-block">VPN obligaciones</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Exposición Cambiaria</div>
+                                <div class="indicator-value" id="exposicionCambiaria">27.1%</div>
+                                <small class="text-muted d-block">% deuda externa</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nueva sección de Comparación Internacional -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Comparación Internacional</h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="indicator-label">Rating Soberano</div>
+                                <div class="indicator-value" id="ratingSoberano">A</div>
+                                <small class="text-muted d-block">S&P/Fitch/Moody's</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Deuda/PIB vs OCDE</div>
+                                <div class="indicator-value" id="deudaComparacion">-45.3pp</div>
+                                <small class="text-muted d-block">vs promedio OCDE</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Presión Tributaria</div>
+                                <div class="indicator-value" id="presionTributaria">20.7%</div>
+                                <small class="text-muted d-block">OCDE: 34.1%</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="indicator-label">Gasto Social/PIB</div>
+                                <div class="indicator-value" id="gastoSocialComparacion">13.2%</div>
+                                <small class="text-muted d-block">OCDE: 20.1%</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -890,6 +1066,42 @@
             2014: { pib: 148234567, tipoCambio: 570.37, precioCobre: 3.11, inflacion: 4.6 }
         };
 
+        // Datos estructurales y de sostenibilidad
+        const datosEstructurales = {
+            2023: {
+                brechaPIB: -1.2,
+                riesgoPais: 150,
+                deudaPIBProyectado: 42.5,
+                costoDeuda: 4.8,
+                balancePrimario: -1.2,
+                multiplicadorFiscal: 0.9,
+                pibPotencial: 251234567,
+                pibEfectivo: 245678901,
+                cobreReferencia: 3.75,
+                elasticidadIngresos: 1.2
+            },
+            // ... datos para otros años
+        };
+
+        // Datos de calidad del gasto y riesgos
+        const datosAdicionales = {
+            2023: {
+                rigidezGasto: 78.5,
+                eficienciaGasto: 0.85,
+                inversionGasto: 11.6,
+                retornoSocial: 1.4,
+                pasivosContingentes: 15.2,
+                sensibilidadIngresos: 0.15,
+                riesgoPensiones: 24.5,
+                exposicionCambiaria: 27.1,
+                ratingSoberano: "A",
+                deudaComparacion: -45.3,
+                presionTributaria: 20.7,
+                gastoSocialComparacion: 13.2
+            },
+            // ... datos para otros años
+        };
+
         // Función para formatear números en formato de moneda
         function formatCurrency(value) {
             return new Intl.NumberFormat('es-CL', {
@@ -945,96 +1157,53 @@
             const pibPercentGastos = ((data.gastos[yearIndex] / yearData.pib) * 100).toFixed(1);
             document.querySelector('#totalIngresos + .trend-indicator + small').textContent = `${pibPercentIngresos}% del PIB`;
             document.querySelector('#totalGastos + .trend-indicator + small').textContent = `${pibPercentGastos}% del PIB`;
+
+            // Actualizar indicadores estructurales
+            updateIndicadoresEstructurales(year);
+            updateIndicadoresAdicionales(year);
         }
 
-        // Función para actualizar todos los gráficos
-        function updateCharts(year, tipoGobierno) {
-            const yearIndex = data.years.indexOf(parseInt(year));
-            const startYear = Math.max(2019, parseInt(year) - 4);
-            const endYear = parseInt(year);
+        // Función para actualizar indicadores estructurales
+        function updateIndicadoresEstructurales(year) {
+            const yearData = datosEstructurales[year];
             
-            // Filtrar datos según el tipo de gobierno
-            let factor = 1;
-            switch(tipoGobierno) {
-                case 'presupuestario':
-                    factor = 0.92; // 92% del total
-                    break;
-                case 'extrapresupuestario':
-                    factor = 0.08; // 8% del total
-                    break;
-                default:
-                    factor = 1; // 100% del total
-            }
+            // Actualizar indicadores de sostenibilidad
+            document.getElementById('brechaPIB').textContent = `${yearData.brechaPIB}%`;
+            document.getElementById('riesgoPais').textContent = `${yearData.riesgoPais} bps`;
+            document.getElementById('deudaPIBProyectado').textContent = `${yearData.deudaPIBProyectado}%`;
+            document.getElementById('costoDeuda').textContent = `${yearData.costoDeuda}%`;
+            document.getElementById('balancePrimario').textContent = `${yearData.balancePrimario}% PIB`;
+            document.getElementById('multiplicadorFiscal').textContent = `${yearData.multiplicadorFiscal}x`;
+            
+            // Actualizar análisis estructural
+            document.getElementById('pibPotencial').textContent = formatCurrency(yearData.pibPotencial) + ' M';
+            document.getElementById('pibEfectivo').textContent = formatCurrency(yearData.pibEfectivo) + ' M';
+            document.getElementById('cobreReferencia').textContent = `$${yearData.cobreReferencia} USD/lb`;
+            document.getElementById('elasticidadIngresos').textContent = yearData.elasticidadIngresos;
+        }
 
-            // Actualizar gráfico de Ingresos y Gastos
-            ingresosGastosChart.data.labels = data.years.slice(yearIndex - 4, yearIndex + 1);
-            ingresosGastosChart.data.datasets[0].data = data.ingresos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
-            ingresosGastosChart.data.datasets[1].data = data.gastos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
-            ingresosGastosChart.update();
-
-            // Actualizar gráfico de Ingresos Tributarios
-            ingresosTributariosChart.data.datasets[0].data = data.ingresosTributarios.data.map(v => v * factor);
-            ingresosTributariosChart.update();
-
-            // Actualizar gráfico de Gastos Funcionales
-            gastosFuncionalesChart.data.datasets[0].data = data.gastosFuncionales.data.map(v => v * factor);
-            gastosFuncionalesChart.update();
-
-            // Actualizar Balance Estructural
-            balanceEstructuralChart.data.labels = data.balanceEstructural.years.slice(-5);
-            balanceEstructuralChart.data.datasets[0].data = data.balanceEstructural.efectivo.slice(-5);
-            balanceEstructuralChart.data.datasets[1].data = data.balanceEstructural.estructural.slice(-5);
-            balanceEstructuralChart.update();
-
-            // Actualizar gráficos de Gobierno General
-            if (municipalidadesChart) {
-                municipalidadesChart.data.labels = data.municipalidades.years.slice(-5);
-                municipalidadesChart.data.datasets[0].data = data.municipalidades.ingresos.slice(-5);
-                municipalidadesChart.data.datasets[1].data = data.municipalidades.gastos.slice(-5);
-                municipalidadesChart.update();
-            }
-
-            if (gobiernoGeneralChart) {
-                gobiernoGeneralChart.data.labels = data.gobiernoGeneral.years.slice(-5);
-                gobiernoGeneralChart.data.datasets[0].data = data.gobiernoGeneral.ingresos.slice(-5);
-                gobiernoGeneralChart.data.datasets[1].data = data.gobiernoGeneral.gastos.slice(-5);
-                gobiernoGeneralChart.update();
-            }
-
-            // Actualizar gráficos de Empresas Públicas
-            if (codelcoChart) {
-                codelcoChart.data.labels = data.codelco.years.slice(-5);
-                codelcoChart.data.datasets[0].data = data.codelco.ingresos.slice(-5);
-                codelcoChart.data.datasets[1].data = data.codelco.costos.slice(-5);
-                codelcoChart.data.datasets[2].data = data.codelco.utilidad.slice(-5);
-                codelcoChart.update();
-            }
-
-            if (enapChart) {
-                enapChart.data.labels = data.enap.years.slice(-5);
-                enapChart.data.datasets[0].data = data.enap.ingresos.slice(-5);
-                enapChart.data.datasets[1].data = data.enap.costos.slice(-5);
-                enapChart.data.datasets[2].data = data.enap.utilidad.slice(-5);
-                enapChart.update();
-            }
-
-            // Actualizar gráficos de Deuda y Activos
-            if (deudaBrutaChart) {
-                deudaBrutaChart.data.labels = data.deudaBruta.years.slice(-5);
-                deudaBrutaChart.data.datasets[0].data = data.deudaBruta.data.slice(-5);
-                deudaBrutaChart.update();
-            }
-
-            if (activosFinancierosChart) {
-                activosFinancierosChart.data.labels = data.activosFinancieros.years.slice(-5);
-                activosFinancierosChart.data.datasets[0].data = data.activosFinancieros.activos.slice(-5);
-                activosFinancierosChart.data.datasets[1].data = data.activosFinancieros.pasivos.slice(-5);
-                activosFinancierosChart.data.datasets[2].data = data.activosFinancieros.patrimonioNeto.slice(-5);
-                activosFinancierosChart.update();
-            }
-
-            // Actualizar tablas de detalle
-            updateDetailTables(year);
+        // Función para actualizar indicadores adicionales
+        function updateIndicadoresAdicionales(year) {
+            const yearData = datosAdicionales[year];
+            
+            // Actualizar calidad del gasto
+            document.getElementById('rigidezGasto').textContent = `${yearData.rigidezGasto}%`;
+            document.getElementById('eficienciaGasto').textContent = yearData.eficienciaGasto;
+            document.getElementById('inversionGasto').textContent = `${yearData.inversionGasto}%`;
+            document.getElementById('retornoSocial').textContent = `${yearData.retornoSocial}x`;
+            
+            // Actualizar riesgos fiscales
+            document.getElementById('pasivosContingentes').textContent = `${yearData.pasivosContingentes}% PIB`;
+            document.getElementById('sensibilidadIngresos').innerHTML = 
+                `<small>USD 0.1/lb Cu = ${yearData.sensibilidadIngresos}% PIB</small>`;
+            document.getElementById('riesgoPensiones').textContent = `${yearData.riesgoPensiones}% PIB`;
+            document.getElementById('exposicionCambiaria').textContent = `${yearData.exposicionCambiaria}%`;
+            
+            // Actualizar comparación internacional
+            document.getElementById('ratingSoberano').textContent = yearData.ratingSoberano;
+            document.getElementById('deudaComparacion').textContent = `${yearData.deudaComparacion}pp`;
+            document.getElementById('presionTributaria').textContent = `${yearData.presionTributaria}%`;
+            document.getElementById('gastoSocialComparacion').textContent = `${yearData.gastoSocialComparacion}%`;
         }
 
         // Variables para almacenar las instancias de los gráficos
@@ -1312,6 +1481,104 @@
                     </td>
                 </tr>
             `).join('');
+        }
+
+        // Función para actualizar todos los gráficos
+        function updateCharts(year, tipoGobierno) {
+            const yearIndex = data.years.indexOf(parseInt(year));
+            const startYear = Math.max(2019, parseInt(year) - 4);
+            const endYear = parseInt(year);
+            
+            // Filtrar datos según el tipo de gobierno
+            let factor = 1;
+            switch(tipoGobierno) {
+                case 'presupuestario':
+                    factor = 0.92; // 92% del total
+                    break;
+                case 'extrapresupuestario':
+                    factor = 0.08; // 8% del total
+                    break;
+                default:
+                    factor = 1; // 100% del total
+            }
+
+            // Actualizar gráfico de Ingresos y Gastos
+            if (ingresosGastosChart) {
+                ingresosGastosChart.data.labels = data.years.slice(yearIndex - 4, yearIndex + 1);
+                ingresosGastosChart.data.datasets[0].data = data.ingresos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
+                ingresosGastosChart.data.datasets[1].data = data.gastos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
+                ingresosGastosChart.update();
+            }
+
+            // Actualizar gráfico de Ingresos Tributarios
+            if (ingresosTributariosChart) {
+                ingresosTributariosChart.data.datasets[0].data = data.ingresosTributarios.data.map(v => v * factor);
+                ingresosTributariosChart.update();
+            }
+
+            // Actualizar gráfico de Gastos Funcionales
+            if (gastosFuncionalesChart) {
+                gastosFuncionalesChart.data.datasets[0].data = data.gastosFuncionales.data.map(v => v * factor);
+                gastosFuncionalesChart.update();
+            }
+
+            // Actualizar Balance Estructural
+            if (balanceEstructuralChart) {
+                balanceEstructuralChart.data.labels = data.balanceEstructural.years.slice(-5);
+                balanceEstructuralChart.data.datasets[0].data = data.balanceEstructural.efectivo.slice(-5);
+                balanceEstructuralChart.data.datasets[1].data = data.balanceEstructural.estructural.slice(-5);
+                balanceEstructuralChart.update();
+            }
+
+            // Actualizar gráficos de Gobierno General
+            if (municipalidadesChart) {
+                municipalidadesChart.data.labels = data.municipalidades.years.slice(-5);
+                municipalidadesChart.data.datasets[0].data = data.municipalidades.ingresos.slice(-5);
+                municipalidadesChart.data.datasets[1].data = data.municipalidades.gastos.slice(-5);
+                municipalidadesChart.update();
+            }
+
+            if (gobiernoGeneralChart) {
+                gobiernoGeneralChart.data.labels = data.gobiernoGeneral.years.slice(-5);
+                gobiernoGeneralChart.data.datasets[0].data = data.gobiernoGeneral.ingresos.slice(-5);
+                gobiernoGeneralChart.data.datasets[1].data = data.gobiernoGeneral.gastos.slice(-5);
+                gobiernoGeneralChart.update();
+            }
+
+            // Actualizar gráficos de Empresas Públicas
+            if (codelcoChart) {
+                codelcoChart.data.labels = data.codelco.years.slice(-5);
+                codelcoChart.data.datasets[0].data = data.codelco.ingresos.slice(-5);
+                codelcoChart.data.datasets[1].data = data.codelco.costos.slice(-5);
+                codelcoChart.data.datasets[2].data = data.codelco.utilidad.slice(-5);
+                codelcoChart.update();
+            }
+
+            if (enapChart) {
+                enapChart.data.labels = data.enap.years.slice(-5);
+                enapChart.data.datasets[0].data = data.enap.ingresos.slice(-5);
+                enapChart.data.datasets[1].data = data.enap.costos.slice(-5);
+                enapChart.data.datasets[2].data = data.enap.utilidad.slice(-5);
+                enapChart.update();
+            }
+
+            // Actualizar gráficos de Deuda y Activos
+            if (deudaBrutaChart) {
+                deudaBrutaChart.data.labels = data.deudaBruta.years.slice(-5);
+                deudaBrutaChart.data.datasets[0].data = data.deudaBruta.data.slice(-5);
+                deudaBrutaChart.update();
+            }
+
+            if (activosFinancierosChart) {
+                activosFinancierosChart.data.labels = data.activosFinancieros.years.slice(-5);
+                activosFinancierosChart.data.datasets[0].data = data.activosFinancieros.activos.slice(-5);
+                activosFinancierosChart.data.datasets[1].data = data.activosFinancieros.pasivos.slice(-5);
+                activosFinancierosChart.data.datasets[2].data = data.activosFinancieros.patrimonioNeto.slice(-5);
+                activosFinancierosChart.update();
+            }
+
+            // Actualizar tablas de detalle
+            updateDetailTables(year);
         }
     </script>
 </body>
