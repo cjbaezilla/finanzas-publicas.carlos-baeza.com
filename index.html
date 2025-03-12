@@ -1835,16 +1835,16 @@
             try {
                 // Ingresos y Gastos
                 ingresosGastosChart = createChart('ingresosGastosChart', 'line', {
-                    labels: data.years,
+                    labels: data.years.slice(-5),
                     datasets: [{
                         label: 'Ingresos',
-                        data: data.ingresos,
+                        data: data.ingresos.slice(-5),
                         borderColor: 'rgb(75, 192, 192)',
                         backgroundColor: 'rgba(75, 192, 192, 0.1)',
                         fill: true
                     }, {
                         label: 'Gastos',
-                        data: data.gastos,
+                        data: data.gastos.slice(-5),
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgba(255, 99, 132, 0.1)',
                         fill: true
@@ -1867,7 +1867,143 @@
                     }]
                 });
 
-                // ... Inicialización de otros gráficos ...
+                // Balance Estructural
+                balanceEstructuralChart = createChart('balanceEstructuralChart', 'line', {
+                    labels: data.balanceEstructural.years,
+                    datasets: [{
+                        label: 'Balance Efectivo',
+                        data: data.balanceEstructural.efectivo,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: false
+                    }, {
+                        label: 'Balance Estructural',
+                        data: data.balanceEstructural.estructural,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: false
+                    }]
+                });
+
+                // Municipalidades
+                municipalidadesChart = createChart('municipalidadesChart', 'line', {
+                    labels: data.municipalidades.years,
+                    datasets: [{
+                        label: 'Ingresos Municipales',
+                        data: data.municipalidades.ingresos,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Gastos Municipales',
+                        data: data.municipalidades.gastos,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: true
+                    }]
+                });
+
+                // Gobierno General
+                gobiernoGeneralChart = createChart('gobiernoGeneralChart', 'line', {
+                    labels: data.gobiernoGeneral.years,
+                    datasets: [{
+                        label: 'Ingresos Consolidados',
+                        data: data.gobiernoGeneral.ingresos,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Gastos Consolidados',
+                        data: data.gobiernoGeneral.gastos,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: true
+                    }]
+                });
+
+                // CODELCO
+                codelcoChart = createChart('codelcoChart', 'bar', {
+                    labels: data.codelco.years,
+                    datasets: [{
+                        label: 'Ingresos',
+                        data: data.codelco.ingresos,
+                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Costos',
+                        data: data.codelco.costos,
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Utilidad',
+                        data: data.codelco.utilidad,
+                        backgroundColor: 'rgba(255, 205, 86, 0.8)',
+                        borderColor: 'rgb(255, 205, 86)',
+                        borderWidth: 1
+                    }]
+                });
+
+                // ENAP
+                enapChart = createChart('enapChart', 'bar', {
+                    labels: data.enap.years,
+                    datasets: [{
+                        label: 'Ingresos',
+                        data: data.enap.ingresos,
+                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Costos',
+                        data: data.enap.costos,
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Utilidad',
+                        data: data.enap.utilidad,
+                        backgroundColor: 'rgba(255, 205, 86, 0.8)',
+                        borderColor: 'rgb(255, 205, 86)',
+                        borderWidth: 1
+                    }]
+                });
+
+                // Deuda Bruta
+                deudaBrutaChart = createChart('deudaBrutaChart', 'line', {
+                    labels: data.deudaBruta.years,
+                    datasets: [{
+                        label: 'Deuda Bruta (% PIB)',
+                        data: data.deudaBruta.data,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: true
+                    }]
+                });
+
+                // Activos Financieros
+                activosFinancierosChart = createChart('activosFinancierosChart', 'line', {
+                    labels: data.activosFinancieros.years,
+                    datasets: [{
+                        label: 'Activos',
+                        data: data.activosFinancieros.activos,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Pasivos',
+                        data: data.activosFinancieros.pasivos,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Patrimonio Neto',
+                        data: data.activosFinancieros.patrimonioNeto,
+                        borderColor: 'rgb(255, 205, 86)',
+                        backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                        fill: true
+                    }]
+                });
 
             } catch (error) {
                 console.error('Error initializing charts:', error);
