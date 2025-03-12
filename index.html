@@ -305,10 +305,145 @@
             }
         };
 
+        // Función para formatear números en formato de moneda
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('es-CL', {
+                style: 'currency',
+                currency: 'CLP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        // Función para formatear números con separadores de miles
+        function formatNumber(value) {
+            return new Intl.NumberFormat('es-CL').format(value);
+        }
+
+        // Función para calcular el porcentaje de cambio
+        function calculateChange(current, previous) {
+            return ((current - previous) / previous * 100).toFixed(1);
+        }
+
+        // Función para actualizar los KPIs
+        function updateKPIs(year) {
+            const yearIndex = data.years.indexOf(parseInt(year));
+            const previousYearIndex = yearIndex - 1;
+
+            // Actualizar valores
+            document.getElementById('totalIngresos').textContent = formatCurrency(data.ingresos[yearIndex]);
+            document.getElementById('totalGastos').textContent = formatCurrency(data.gastos[yearIndex]);
+            document.getElementById('balance').textContent = formatCurrency(data.ingresos[yearIndex] - data.gastos[yearIndex]);
+            
+            // Actualizar tendencias
+            const ingresosChange = calculateChange(data.ingresos[yearIndex], data.ingresos[previousYearIndex]);
+            const gastosChange = calculateChange(data.gastos[yearIndex], data.gastos[previousYearIndex]);
+            
+            // Actualizar clases e indicadores de tendencia
+            const ingresosTrend = document.querySelector('#totalIngresos + .trend-indicator');
+            ingresosTrend.textContent = `${ingresosChange}% vs ${year - 1}`;
+            ingresosTrend.className = `trend-indicator ${parseFloat(ingresosChange) >= 0 ? 'trend-up' : 'trend-down'}`;
+
+            const gastosTrend = document.querySelector('#totalGastos + .trend-indicator');
+            gastosTrend.textContent = `${gastosChange}% vs ${year - 1}`;
+            gastosTrend.className = `trend-indicator ${parseFloat(gastosChange) >= 0 ? 'trend-down' : 'trend-up'}`;
+        }
+
+        // Función para actualizar todos los gráficos
+        function updateCharts(year, tipoGobierno) {
+            const yearIndex = data.years.indexOf(parseInt(year));
+            const startYear = Math.max(2019, parseInt(year) - 4);
+            const endYear = parseInt(year);
+            
+            // Filtrar datos según el tipo de gobierno
+            let factor = 1;
+            switch(tipoGobierno) {
+                case 'presupuestario':
+                    factor = 0.92; // 92% del total
+                    break;
+                case 'extrapresupuestario':
+                    factor = 0.08; // 8% del total
+                    break;
+                default:
+                    factor = 1; // 100% del total
+            }
+
+            // Actualizar gráfico de Ingresos y Gastos
+            ingresosGastosChart.data.labels = data.years.slice(yearIndex - 4, yearIndex + 1);
+            ingresosGastosChart.data.datasets[0].data = data.ingresos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
+            ingresosGastosChart.data.datasets[1].data = data.gastos.slice(yearIndex - 4, yearIndex + 1).map(v => v * factor);
+            ingresosGastosChart.update();
+
+            // Actualizar gráfico de Ingresos Tributarios
+            ingresosTributariosChart.data.datasets[0].data = data.ingresosTributarios.data.map(v => v * factor);
+            ingresosTributariosChart.update();
+
+            // Actualizar gráfico de Gastos Funcionales
+            gastosFuncionalesChart.data.datasets[0].data = data.gastosFuncionales.data.map(v => v * factor);
+            gastosFuncionalesChart.update();
+
+            // Actualizar Balance Estructural
+            balanceEstructuralChart.data.labels = data.balanceEstructural.years.slice(-5);
+            balanceEstructuralChart.data.datasets[0].data = data.balanceEstructural.efectivo.slice(-5);
+            balanceEstructuralChart.data.datasets[1].data = data.balanceEstructural.estructural.slice(-5);
+            balanceEstructuralChart.update();
+
+            // Actualizar gráficos de Gobierno General
+            if (municipalidadesChart) {
+                municipalidadesChart.data.labels = data.municipalidades.years.slice(-5);
+                municipalidadesChart.data.datasets[0].data = data.municipalidades.ingresos.slice(-5);
+                municipalidadesChart.data.datasets[1].data = data.municipalidades.gastos.slice(-5);
+                municipalidadesChart.update();
+            }
+
+            if (gobiernoGeneralChart) {
+                gobiernoGeneralChart.data.labels = data.gobiernoGeneral.years.slice(-5);
+                gobiernoGeneralChart.data.datasets[0].data = data.gobiernoGeneral.ingresos.slice(-5);
+                gobiernoGeneralChart.data.datasets[1].data = data.gobiernoGeneral.gastos.slice(-5);
+                gobiernoGeneralChart.update();
+            }
+
+            // Actualizar gráficos de Empresas Públicas
+            if (codelcoChart) {
+                codelcoChart.data.labels = data.codelco.years.slice(-5);
+                codelcoChart.data.datasets[0].data = data.codelco.ingresos.slice(-5);
+                codelcoChart.data.datasets[1].data = data.codelco.costos.slice(-5);
+                codelcoChart.data.datasets[2].data = data.codelco.utilidad.slice(-5);
+                codelcoChart.update();
+            }
+
+            if (enapChart) {
+                enapChart.data.labels = data.enap.years.slice(-5);
+                enapChart.data.datasets[0].data = data.enap.ingresos.slice(-5);
+                enapChart.data.datasets[1].data = data.enap.costos.slice(-5);
+                enapChart.data.datasets[2].data = data.enap.utilidad.slice(-5);
+                enapChart.update();
+            }
+
+            // Actualizar gráficos de Deuda y Activos
+            if (deudaBrutaChart) {
+                deudaBrutaChart.data.labels = data.deudaBruta.years.slice(-5);
+                deudaBrutaChart.data.datasets[0].data = data.deudaBruta.data.slice(-5);
+                deudaBrutaChart.update();
+            }
+
+            if (activosFinancierosChart) {
+                activosFinancierosChart.data.labels = data.activosFinancieros.years.slice(-5);
+                activosFinancierosChart.data.datasets[0].data = data.activosFinancieros.activos.slice(-5);
+                activosFinancierosChart.data.datasets[1].data = data.activosFinancieros.pasivos.slice(-5);
+                activosFinancierosChart.data.datasets[2].data = data.activosFinancieros.patrimonioNeto.slice(-5);
+                activosFinancierosChart.update();
+            }
+        }
+
+        // Variables para almacenar las instancias de los gráficos
+        let ingresosGastosChart, ingresosTributariosChart, gastosFuncionalesChart, balanceEstructuralChart,
+            municipalidadesChart, gobiernoGeneralChart, codelcoChart, enapChart, deudaBrutaChart, activosFinancierosChart;
+
         // Función para crear gráficos
         function createChart(id, type, data, options = {}) {
             const element = document.getElementById(id);
-            if (!element) return; // Evitar error si el elemento no existe
+            if (!element) return null; // Evitar error si el elemento no existe
 
             return new Chart(element, {
                 type: type,
@@ -326,196 +461,221 @@
             });
         }
 
-        // Crear gráficos
-        // Ingresos y Gastos
-        createChart('ingresosGastosChart', 'line', {
-            labels: data.years,
-            datasets: [{
-                label: 'Ingresos',
-                data: data.ingresos,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+        // Inicializar todos los gráficos y guardar las referencias
+        function initializeCharts() {
+            // Ingresos y Gastos
+            ingresosGastosChart = createChart('ingresosGastosChart', 'line', {
+                labels: data.years,
+                datasets: [{
+                    label: 'Ingresos',
+                    data: data.ingresos,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, {
+                    label: 'Gastos',
+                    data: data.gastos,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }]
+            });
+
+            // Ingresos Tributarios
+            ingresosTributariosChart = createChart('ingresosTributariosChart', 'doughnut', {
+                labels: data.ingresosTributarios.labels,
+                datasets: [{
+                    data: data.ingresosTributarios.data,
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                        'rgb(255, 159, 64)'
+                    ]
+                }]
+            });
+
+            // Gastos Funcionales
+            gastosFuncionalesChart = createChart('gastosFuncionalesChart', 'bar', {
+                labels: data.gastosFuncionales.labels,
+                datasets: [{
+                    label: 'Gastos por función',
+                    data: data.gastosFuncionales.data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                }]
             }, {
-                label: 'Gastos',
-                data: data.gastos,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
-        });
-
-        // Ingresos Tributarios
-        createChart('ingresosTributariosChart', 'doughnut', {
-            labels: data.ingresosTributarios.labels,
-            datasets: [{
-                data: data.ingresosTributarios.data,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
-                    'rgb(255, 159, 64)'
-                ]
-            }]
-        });
-
-        // Gastos Funcionales
-        createChart('gastosFuncionalesChart', 'bar', {
-            labels: data.gastosFuncionales.labels,
-            datasets: [{
-                label: 'Gastos por función',
-                data: data.gastosFuncionales.data,
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                borderColor: 'rgb(75, 192, 192)',
-                borderWidth: 1
-            }]
-        }, {
-            scales: {
-                y: {
-                    beginAtZero: true
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        });
+            });
 
-        // Balance Estructural
-        createChart('balanceEstructuralChart', 'line', {
-            labels: data.balanceEstructural.years,
-            datasets: [{
-                label: 'Balance Efectivo',
-                data: data.balanceEstructural.efectivo,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Balance Estructural',
-                data: data.balanceEstructural.estructural,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
-        });
+            // Balance Estructural
+            balanceEstructuralChart = createChart('balanceEstructuralChart', 'line', {
+                labels: data.balanceEstructural.years,
+                datasets: [{
+                    label: 'Balance Efectivo',
+                    data: data.balanceEstructural.efectivo,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, {
+                    label: 'Balance Estructural',
+                    data: data.balanceEstructural.estructural,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }]
+            });
 
-        // Deuda Bruta
-        createChart('deudaBrutaChart', 'line', {
-            labels: data.deudaBruta.years,
-            datasets: [{
-                label: 'Deuda Bruta (% PIB)',
-                data: data.deudaBruta.data,
-                borderColor: 'rgb(153, 102, 255)',
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                fill: true
-            }]
-        });
+            // Deuda Bruta
+            deudaBrutaChart = createChart('deudaBrutaChart', 'line', {
+                labels: data.deudaBruta.years,
+                datasets: [{
+                    label: 'Deuda Bruta (% PIB)',
+                    data: data.deudaBruta.data,
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    fill: true
+                }]
+            });
 
-        // Municipalidades
-        createChart('municipalidadesChart', 'line', {
-            labels: data.municipalidades.years,
-            datasets: [{
-                label: 'Ingresos Municipales',
-                data: data.municipalidades.ingresos,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Gastos Municipales',
-                data: data.municipalidades.gastos,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
-        });
+            // Municipalidades
+            municipalidadesChart = createChart('municipalidadesChart', 'line', {
+                labels: data.municipalidades.years,
+                datasets: [{
+                    label: 'Ingresos Municipales',
+                    data: data.municipalidades.ingresos,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, {
+                    label: 'Gastos Municipales',
+                    data: data.municipalidades.gastos,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }]
+            });
 
-        // Gobierno General
-        createChart('gobiernoGeneralChart', 'line', {
-            labels: data.gobiernoGeneral.years,
-            datasets: [{
-                label: 'Ingresos Totales',
-                data: data.gobiernoGeneral.ingresos,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Gastos Totales',
-                data: data.gobiernoGeneral.gastos,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
-        });
+            // Gobierno General
+            gobiernoGeneralChart = createChart('gobiernoGeneralChart', 'line', {
+                labels: data.gobiernoGeneral.years,
+                datasets: [{
+                    label: 'Ingresos Totales',
+                    data: data.gobiernoGeneral.ingresos,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, {
+                    label: 'Gastos Totales',
+                    data: data.gobiernoGeneral.gastos,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }]
+            });
 
-        // CODELCO
-        createChart('codelcoChart', 'bar', {
-            labels: data.codelco.years,
-            datasets: [{
-                label: 'Ingresos',
-                data: data.codelco.ingresos,
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                borderColor: 'rgb(75, 192, 192)',
-                borderWidth: 1
+            // CODELCO
+            codelcoChart = createChart('codelcoChart', 'bar', {
+                labels: data.codelco.years,
+                datasets: [{
+                    label: 'Ingresos',
+                    data: data.codelco.ingresos,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                }, {
+                    label: 'Costos',
+                    data: data.codelco.costos,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }, {
+                    label: 'Utilidad',
+                    data: data.codelco.utilidad,
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                    borderColor: 'rgb(255, 205, 86)',
+                    borderWidth: 1
+                }]
             }, {
-                label: 'Costos',
-                data: data.codelco.costos,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgb(255, 99, 132)',
-                borderWidth: 1
-            }, {
-                label: 'Utilidad',
-                data: data.codelco.utilidad,
-                backgroundColor: 'rgba(255, 205, 86, 0.5)',
-                borderColor: 'rgb(255, 205, 86)',
-                borderWidth: 1
-            }]
-        }, {
-            scales: {
-                y: {
-                    beginAtZero: true
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
-        });
+            });
 
-        // ENAP
-        createChart('enapChart', 'bar', {
-            labels: data.enap.years,
-            datasets: [{
-                label: 'Ingresos',
-                data: data.enap.ingresos,
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                borderColor: 'rgb(75, 192, 192)',
-                borderWidth: 1
+            // ENAP
+            enapChart = createChart('enapChart', 'bar', {
+                labels: data.enap.years,
+                datasets: [{
+                    label: 'Ingresos',
+                    data: data.enap.ingresos,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                }, {
+                    label: 'Costos',
+                    data: data.enap.costos,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }, {
+                    label: 'Utilidad',
+                    data: data.enap.utilidad,
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                    borderColor: 'rgb(255, 205, 86)',
+                    borderWidth: 1
+                }]
             }, {
-                label: 'Costos',
-                data: data.enap.costos,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgb(255, 99, 132)',
-                borderWidth: 1
-            }, {
-                label: 'Utilidad',
-                data: data.enap.utilidad,
-                backgroundColor: 'rgba(255, 205, 86, 0.5)',
-                borderColor: 'rgb(255, 205, 86)',
-                borderWidth: 1
-            }]
-        }, {
-            scales: {
-                y: {
-                    beginAtZero: true
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
-            }
+            });
+
+            // Activos Financieros
+            activosFinancierosChart = createChart('activosFinancierosChart', 'line', {
+                labels: data.activosFinancieros.years,
+                datasets: [{
+                    label: 'Activos',
+                    data: data.activosFinancieros.activos,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }, {
+                    label: 'Pasivos',
+                    data: data.activosFinancieros.pasivos,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }, {
+                    label: 'Patrimonio Neto',
+                    data: data.activosFinancieros.patrimonioNeto,
+                    borderColor: 'rgb(255, 205, 86)',
+                    tension: 0.1
+                }]
+            });
+        }
+
+        // Event listeners para los filtros
+        document.getElementById('yearFilter').addEventListener('change', function(e) {
+            const year = e.target.value;
+            const tipoGobierno = document.getElementById('tipoGobiernoFilter').value;
+            updateKPIs(year);
+            updateCharts(year, tipoGobierno);
         });
 
-        // Activos Financieros
-        createChart('activosFinancierosChart', 'line', {
-            labels: data.activosFinancieros.years,
-            datasets: [{
-                label: 'Activos',
-                data: data.activosFinancieros.activos,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Pasivos',
-                data: data.activosFinancieros.pasivos,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }, {
-                label: 'Patrimonio Neto',
-                data: data.activosFinancieros.patrimonioNeto,
-                borderColor: 'rgb(255, 205, 86)',
-                tension: 0.1
-            }]
+        document.getElementById('tipoGobiernoFilter').addEventListener('change', function(e) {
+            const year = document.getElementById('yearFilter').value;
+            const tipoGobierno = e.target.value;
+            updateCharts(year, tipoGobierno);
+        });
+
+        // Inicializar el dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            const initialYear = document.getElementById('yearFilter').value;
+            const initialTipoGobierno = document.getElementById('tipoGobiernoFilter').value;
+            updateKPIs(initialYear);
+            updateCharts(initialYear, initialTipoGobierno);
         });
 
         // Inicializar todos los tooltips de Bootstrap
