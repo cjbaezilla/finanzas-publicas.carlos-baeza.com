@@ -938,7 +938,7 @@
                 currency: 'CLP',
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
-            }).format(value);
+            }).format(value).replace('CLP', '$') + ' M';
         }
 
         // Función para formatear números con separadores de miles
@@ -1384,67 +1384,8 @@
 
         // Función para actualizar las tablas de detalle
         function updateDetailTables(year, tipoGobierno = 'total') {
-            const yearIndex = data.years.indexOf(parseInt(year));
+            const yearIndex = data.municipalidades.years.indexOf(parseInt(year));
             if (yearIndex === -1) return;
-
-            // Aplicar factor según tipo de gobierno
-            let factor = 1;
-            switch(tipoGobierno) {
-                case 'presupuestario':
-                    factor = 0.92;
-                    break;
-                case 'extrapresupuestario':
-                    factor = 0.08;
-                    break;
-                default:
-                    factor = 1;
-            }
-
-            // Actualizar tabla de ingresos tributarios
-            const ingresosTributariosTable = document.getElementById('ingresosTributariosTable');
-            if (ingresosTributariosTable) {
-                const totalIngresos = data.ingresosTributarios.data.reduce((a, b) => a + b, 0) * factor;
-                ingresosTributariosTable.innerHTML = data.ingresosTributarios.labels.map((label, index) => {
-                    const monto = data.ingresosTributarios.data[index] * factor;
-                    const porcentaje = ((monto / totalIngresos) * 100).toFixed(1);
-                    const variacion = yearIndex > 0 ? 
-                        calculateChange(monto, data.ingresosTributarios.data[index] * factor) : 
-                        '0.0';
-                    return `
-                        <tr>
-                            <td>${label}</td>
-                            <td>${formatCurrency(monto)}</td>
-                            <td>${porcentaje}%</td>
-                            <td class="${parseFloat(variacion) >= 0 ? 'text-success' : 'text-danger'}">
-                                ${variacion}%
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-            }
-
-            // Actualizar tabla de gastos funcionales
-            const gastosFuncionalesTable = document.getElementById('gastosFuncionalesTable');
-            if (gastosFuncionalesTable) {
-                const totalGastos = data.gastosFuncionales.data.reduce((a, b) => a + b, 0) * factor;
-                gastosFuncionalesTable.innerHTML = data.gastosFuncionales.labels.map((label, index) => {
-                    const monto = data.gastosFuncionales.data[index] * factor;
-                    const porcentaje = ((monto / totalGastos) * 100).toFixed(1);
-                    const variacion = yearIndex > 0 ? 
-                        calculateChange(monto, data.gastosFuncionales.data[index] * factor) : 
-                        '0.0';
-                    return `
-                        <tr>
-                            <td>${label}</td>
-                            <td>${formatCurrency(monto)}</td>
-                            <td>${porcentaje}%</td>
-                            <td class="${parseFloat(variacion) >= 0 ? 'text-success' : 'text-danger'}">
-                                ${variacion}%
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-            }
 
             // Actualizar tabla de detalle municipal
             const detalleMunicipalTable = document.getElementById('detalleMunicipalTable');
@@ -1458,9 +1399,12 @@
                 
                 detalleMunicipalTable.innerHTML = Object.entries(yearData).map(([key, value]) => {
                     const porcentaje = ((value / totalIngresos) * 100).toFixed(1);
-                    const variacion = yearIndex > 0 ? 
-                        calculateChange(value, data.municipalidades.ingresos[yearIndex - 1] * (key === 'ingresosPropios' ? 0.501 : key === 'fondoComun' ? 0.338 : 0.161)) : 
-                        '0.0';
+                    const previousValue = yearIndex > 0 ? 
+                        data.municipalidades.ingresos[yearIndex - 1] * (
+                            key === 'ingresosPropios' ? 0.501 : 
+                            key === 'fondoComun' ? 0.338 : 0.161
+                        ) : null;
+                    const variacion = calculateChange(value, previousValue);
                     const label = key === 'ingresosPropios' ? 'Ingresos Propios' : 
                                 key === 'fondoComun' ? 'Fondo Común Municipal' : 
                                 'Transferencias';
