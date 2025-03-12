@@ -18,7 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
     <script>
         tailwind.config = {
-            darkMode: 'media',
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -44,9 +44,15 @@
                     <span class="hidden sm:block text-gray-900 dark:text-white font-semibold">Dashboard Finanzas Públicas</span>
                     <span class="sm:hidden text-gray-900 dark:text-white font-semibold">Finanzas CL</span>
                 </a>
-                <button class="lg:hidden p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
-                    <i class="bi bi-sliders"></i>
-                </button>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white rounded-lg">
+                        <i class="bi bi-sun-fill dark:hidden"></i>
+                        <i class="bi bi-moon-fill hidden dark:inline"></i>
+                    </button>
+                    <button class="lg:hidden p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+                        <i class="bi bi-sliders"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -1667,6 +1673,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabPanes = document.querySelectorAll('.tab-pane');
+
+            // Inicializar el tema
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            // Manejar el cambio de tema
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            });
 
             function switchTab(tabId) {
                 // Actualizar botones
