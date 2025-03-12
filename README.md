@@ -1,149 +1,70 @@
-# Dashboard de Finanzas Públicas de Chile
+# Getting Started with Create React App
 
-## Descripción General
-Este dashboard interactivo proporciona una visión integral de las finanzas públicas de Chile, abarcando el período 2014-2023. Diseñado para satisfacer las necesidades tanto de economistas y analistas financieros como de usuarios interesados en comprender la situación fiscal del país.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Ventajas desde la Perspectiva Económica
+## Available Scripts
 
-### 1. Visión Integral de la Política Fiscal
-- **Análisis Multidimensional**: Integra indicadores macroeconómicos, fiscales y estructurales en una única plataforma
-- **Seguimiento de Metas**: Permite evaluar el cumplimiento de objetivos fiscales y comparar con metas establecidas
-- **Análisis Temporal**: Facilita la identificación de tendencias y patrones en las variables fiscales
+In the project directory, you can run:
 
-### 2. Indicadores Clave
-- **Sostenibilidad Fiscal**: 
-  - Proyecciones de deuda/PIB
-  - Balance primario
-  - Costo promedio de la deuda
-  - Multiplicador fiscal
-- **Análisis Estructural**:
-  - Brecha del PIB
-  - Precio de referencia del cobre
-  - Elasticidades fiscales
-  - Balance estructural vs efectivo
+### `npm start`
 
-### 3. Desagregación por Niveles de Gobierno
-- Gobierno Central (Presupuestario y Extrapresupuestario)
-- Gobierno General
-- Empresas Públicas
-- Sector Municipal
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### 4. Análisis de Riesgos
-- Pasivos contingentes
-- Exposición cambiaria
-- Riesgos pensionales
-- Sensibilidad a variables clave
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Ventajas desde la Perspectiva Técnica
+### `npm test`
 
-### 1. Arquitectura Moderna
-- Desarrollado con tecnologías web estándar (HTML5, CSS3, JavaScript)
-- Utiliza Bootstrap 5 para un diseño responsivo
-- Implementa Chart.js para visualizaciones dinámicas
-- Optimizado para rendimiento y usabilidad
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### 2. Características Técnicas
-- **Interactividad**: Filtros dinámicos por año y tipo de gobierno
-- **Visualización**: Múltiples tipos de gráficos adaptados a cada tipo de dato
-- **Responsividad**: Adaptable a diferentes dispositivos y tamaños de pantalla
-- **Modularidad**: Código organizado y mantenible
+### `npm run build`
 
-### 3. Capacidades de Análisis
-- Cálculos automáticos de variaciones
-- Formateo inteligente de números y monedas
-- Actualización en tiempo real de indicadores
-- Manejo eficiente de datos históricos
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Guía de Uso
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### 1. Navegación Principal
-- **Filtros Superiores**: 
-  - Selector de año (2014-2023)
-  - Tipo de gobierno (Total, Presupuestario, Extrapresupuestario)
-- **Pestañas Principales**:
-  - Gobierno Central
-  - Gobierno General
-  - Empresas Públicas
-  - Deuda y Activos
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### 2. Análisis Recomendados
+### `npm run eject`
 
-#### Análisis de Sostenibilidad
-1. Revisar la evolución de la deuda bruta y neta
-2. Analizar el balance primario y sus componentes
-3. Evaluar las proyecciones de deuda/PIB
-4. Examinar el costo y estructura de la deuda
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-#### Análisis de Desempeño Fiscal
-1. Comparar ingresos y gastos efectivos
-2. Evaluar la composición de ingresos tributarios
-3. Analizar la clasificación funcional del gasto
-4. Revisar indicadores de eficiencia del gasto
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-#### Análisis de Riesgos
-1. Monitorear pasivos contingentes
-2. Evaluar exposición cambiaria
-3. Analizar sensibilidad a precios de materias primas
-4. Revisar riesgos pensionales
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-### 3. Interpretación de Datos
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-#### Indicadores de Tendencia
-- **Flechas Verdes**: Indican mejora según la naturaleza del indicador
-- **Flechas Rojas**: Indican deterioro según la naturaleza del indicador
-- **Variaciones Porcentuales**: Muestran cambios respecto al año anterior
+## Learn More
 
-#### Comparaciones
-- **vs PIB**: Permite evaluar el tamaño relativo de variables
-- **vs Año Anterior**: Muestra la evolución temporal
-- **vs Metas**: Indica el cumplimiento de objetivos
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## Casos de Uso
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-### 1. Análisis de Política Fiscal
-- Evaluación de la postura fiscal
-- Análisis de multiplicadores fiscales
-- Seguimiento de reglas fiscales
-- Evaluación de sostenibilidad
+### Code Splitting
 
-### 2. Investigación Económica
-- Análisis de series temporales
-- Estudios de política económica
-- Evaluación de impacto de medidas
-- Proyecciones fiscales
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### 3. Toma de Decisiones
-- Planificación presupuestaria
-- Gestión de deuda pública
-- Evaluación de riesgos fiscales
-- Diseño de políticas públicas
+### Analyzing the Bundle Size
 
-## Recomendaciones de Uso
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### 1. Para Análisis Regular
-- Comenzar con los indicadores de cabecera
-- Revisar variaciones significativas
-- Analizar tendencias en gráficos principales
-- Examinar desagregaciones relevantes
+### Making a Progressive Web App
 
-### 2. Para Análisis Profundo
-- Utilizar datos históricos completos
-- Combinar múltiples indicadores
-- Analizar correlaciones entre variables
-- Examinar descomposiciones detalladas
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### 3. Para Presentaciones
-- Utilizar gráficos más relevantes
-- Destacar tendencias principales
-- Focalizarse en mensajes clave
-- Aprovechar visualizaciones interactivas
+### Advanced Configuration
 
-## Notas Técnicas
-- Actualización mensual de datos
-- Fuente: Dirección de Presupuestos, Ministerio de Hacienda
-- Metodología consistente con estándares internacionales
-- Definiciones alineadas con el Manual de Estadísticas Fiscales del FMI
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-## Contacto y Soporte
-Para consultas técnicas o metodológicas, contactar a:
-[Información de contacto del equipo de soporte] 
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
