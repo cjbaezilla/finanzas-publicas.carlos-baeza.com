@@ -53,16 +53,16 @@
         <div class="alert alert-info mb-4" role="alert">
             <div class="row">
                 <div class="col-md-3">
-                    <strong>PIB Nominal 2023:</strong> $245,678,901 M
+                    <strong>PIB Nominal:</strong> <span id="pibNominal">$245,678,901 M</span>
                 </div>
                 <div class="col-md-3">
-                    <strong>Tipo de Cambio:</strong> $857.23 CLP/USD
+                    <strong>Tipo de Cambio:</strong> <span id="tipoCambio">$857.23 CLP/USD</span>
                 </div>
                 <div class="col-md-3">
-                    <strong>Precio Cobre:</strong> $3.85 USD/lb
+                    <strong>Precio Cobre:</strong> <span id="precioCobre">$3.85 USD/lb</span>
                 </div>
                 <div class="col-md-3">
-                    <strong>Inflación Anual:</strong> 4.8%
+                    <strong>Inflación Anual:</strong> <span id="inflacionAnual">4.8%</span>
                 </div>
             </div>
         </div>
@@ -109,11 +109,6 @@
                                     <option value="total">Gobierno Central Total</option>
                                     <option value="presupuestario">Gobierno Central Presupuestario</option>
                                     <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
-                                </select>
-                                <select class="form-select" id="monedaFilter">
-                                    <option value="nominal">Pesos Nominales</option>
-                                    <option value="real">Pesos Reales (2023)</option>
-                                    <option value="usd">Dólares</option>
                                 </select>
                             </div>
                         </div>
@@ -881,6 +876,20 @@
             },
         };
 
+        // Datos macroeconómicos por año
+        const macroData = {
+            2023: { pib: 245678901, tipoCambio: 857.23, precioCobre: 3.85, inflacion: 4.8 },
+            2022: { pib: 238456789, tipoCambio: 872.34, precioCobre: 3.92, inflacion: 12.8 },
+            2021: { pib: 206789012, tipoCambio: 898.56, precioCobre: 4.23, inflacion: 7.2 },
+            2020: { pib: 178901234, tipoCambio: 792.17, precioCobre: 2.80, inflacion: 3.0 },
+            2019: { pib: 195678901, tipoCambio: 748.93, precioCobre: 2.72, inflacion: 3.0 },
+            2018: { pib: 191234567, tipoCambio: 681.99, precioCobre: 2.96, inflacion: 2.6 },
+            2017: { pib: 180123456, tipoCambio: 649.33, precioCobre: 2.80, inflacion: 2.3 },
+            2016: { pib: 169012345, tipoCambio: 676.83, precioCobre: 2.21, inflacion: 2.7 },
+            2015: { pib: 159123456, tipoCambio: 654.25, precioCobre: 2.50, inflacion: 4.3 },
+            2014: { pib: 148234567, tipoCambio: 570.37, precioCobre: 3.11, inflacion: 4.6 }
+        };
+
         // Función para formatear números en formato de moneda
         function formatCurrency(value) {
             return new Intl.NumberFormat('es-CL', {
@@ -905,8 +914,15 @@
         function updateKPIs(year) {
             const yearIndex = data.years.indexOf(parseInt(year));
             const previousYearIndex = yearIndex - 1;
+            const yearData = macroData[year];
 
-            // Actualizar valores
+            // Actualizar indicadores de cabecera
+            document.getElementById('pibNominal').textContent = formatCurrency(yearData.pib) + ' M';
+            document.getElementById('tipoCambio').textContent = `$${yearData.tipoCambio.toFixed(2)} CLP/USD`;
+            document.getElementById('precioCobre').textContent = `$${yearData.precioCobre.toFixed(2)} USD/lb`;
+            document.getElementById('inflacionAnual').textContent = `${yearData.inflacion.toFixed(1)}%`;
+
+            // Actualizar valores principales
             document.getElementById('totalIngresos').textContent = formatCurrency(data.ingresos[yearIndex]);
             document.getElementById('totalGastos').textContent = formatCurrency(data.gastos[yearIndex]);
             document.getElementById('balance').textContent = formatCurrency(data.ingresos[yearIndex] - data.gastos[yearIndex]);
@@ -923,6 +939,12 @@
             const gastosTrend = document.querySelector('#totalGastos + .trend-indicator');
             gastosTrend.textContent = `${gastosChange}% vs ${year - 1}`;
             gastosTrend.className = `trend-indicator ${parseFloat(gastosChange) >= 0 ? 'trend-down' : 'trend-up'}`;
+
+            // Actualizar porcentajes del PIB
+            const pibPercentIngresos = ((data.ingresos[yearIndex] / yearData.pib) * 100).toFixed(1);
+            const pibPercentGastos = ((data.gastos[yearIndex] / yearData.pib) * 100).toFixed(1);
+            document.querySelector('#totalIngresos + .trend-indicator + small').textContent = `${pibPercentIngresos}% del PIB`;
+            document.querySelector('#totalGastos + .trend-indicator + small').textContent = `${pibPercentGastos}% del PIB`;
         }
 
         // Función para actualizar todos los gráficos
