@@ -217,7 +217,7 @@
             <!-- Gobierno Central -->
             <div class="tab-pane active" id="gobierno-central" role="tabpanel">
                 <!-- Indicadores principales -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
                         <div class="flex items-center mb-2">
                             <i class="bi bi-arrow-up-circle-fill text-success mr-2"></i>
@@ -264,51 +264,48 @@
                     </div>
                 </div>
 
-                <!-- Gráficos principales -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <div class="flex justify-between items-center mb-3">
-                            <h5 class="card-title h6 mb-0">
+                <!-- Gráficos principales con mayor prominencia -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                 <i class="bi bi-graph-up me-2"></i>
                                 Evolución de Ingresos y Gastos
-                            </h5>
-                            <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-outline-secondary active">Anual</button>
-                                <button type="button" class="btn btn-outline-secondary">Mensual</button>
+                            </h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 text-sm font-medium rounded-md bg-primary text-white">Anual</button>
+                                <button class="px-3 py-1 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Mensual</button>
                             </div>
                         </div>
-                        <div class="chart-container">
+                        <div class="h-[400px]">
                             <canvas id="ingresosGastosChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <div class="flex justify-between items-center mb-3">
-                            <h5 class="card-title h6 mb-0">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                                 <i class="bi bi-pie-chart me-2"></i>
                                 Composición de Ingresos Tributarios
-                            </h5>
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    2023
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">2023</a></li>
-                                    <li><a class="dropdown-item" href="#">2022</a></li>
-                                    <li><a class="dropdown-item" href="#">2021</a></li>
-                                </ul>
-                            </div>
+                            </h3>
+                            <select class="px-3 py-1 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                                <option>2023</option>
+                                <option>2022</option>
+                                <option>2021</option>
+                            </select>
                         </div>
-                        <div class="chart-container">
+                        <div class="h-[400px]">
                             <canvas id="ingresosTributariosChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tablas responsivas -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    <!-- Tabla de Ingresos Tributarios -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
-                        <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Detalle de Ingresos Tributarios</h5>
+                <!-- Tablas responsivas en un layout mejorado -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            <i class="bi bi-table me-2"></i>
+                            Detalle de Ingresos Tributarios
+                        </h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-800">
@@ -342,10 +339,11 @@
                             </table>
                         </div>
                     </div>
-
-                    <!-- Tabla de Gastos por Función -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
-                        <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Detalle de Gastos por Función</h5>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            <i class="bi bi-table me-2"></i>
+                            Detalle de Gastos por Función
+                        </h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-gray-800">
@@ -385,7 +383,7 @@
             <!-- Gobierno General -->
             <div class="tab-pane hidden" id="gobierno-general" role="tabpanel">
                 <!-- KPIs Gobierno General -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
                         <div class="indicator-label">Ingresos Consolidados</div>
                         <div class="indicator-value" id="ingresosConsolidados">$74,921,947 M</div>
@@ -412,11 +410,33 @@
                     </div>
                 </div>
 
-                <!-- Detalles Municipales -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Detalle Municipal</h5>
-                        <div class="table-responsive">
+                <!-- Gráficos de Gobierno General -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Estado de Operaciones Municipalidades
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="municipalidadesChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Gobierno General Consolidado
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="gobiernoGeneralChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablas de detalle -->
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Detalle Municipal
+                        </h3>
+                        <div class="overflow-x-auto">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -453,57 +473,13 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Estado de Operaciones Municipalidades</h5>
-                        <div class="chart-container">
-                            <canvas id="municipalidadesChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Gobierno General Consolidado</h5>
-                        <div class="chart-container">
-                            <canvas id="gobiernoGeneralChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Composición del Gasto por Nivel de Gobierno</h5>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Nivel de Gobierno</th>
-                                        <th>Gasto Total</th>
-                                        <th>Gasto Corriente</th>
-                                        <th>Inversión</th>
-                                        <th>% del Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Gobierno Central</td>
-                                        <td>$71,418,533 M</td>
-                                        <td>$63,150,608 M</td>
-                                        <td>$8,267,925 M</td>
-                                        <td>87.6%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Municipalidades</td>
-                                        <td>$10,123,456 M</td>
-                                        <td>$8,098,765 M</td>
-                                        <td>$2,024,691 M</td>
-                                        <td>12.4%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <!-- Empresas Públicas -->
             <div class="tab-pane hidden" id="empresas-publicas" role="tabpanel">
                 <!-- KPIs Empresas Públicas -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
                         <div class="indicator-label">CODELCO</div>
                         <div class="indicator-value" id="codelcoUtilidad">$2,222,222 M</div>
@@ -546,11 +522,33 @@
                     </div>
                 </div>
 
-                <!-- Detalles Operacionales -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Indicadores Operacionales CODELCO</h5>
-                        <div class="table-responsive">
+                <!-- Gráficos de Empresas Públicas -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Resultados CODELCO
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="codelcoChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Resultados ENAP
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="enapChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablas de detalle -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Indicadores Operacionales CODELCO
+                        </h3>
+                        <div class="overflow-x-auto">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -589,9 +587,11 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Indicadores Operacionales ENAP</h5>
-                        <div class="table-responsive">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Indicadores Operacionales ENAP
+                        </h3>
+                        <div class="overflow-x-auto">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -624,25 +624,13 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Resultados CODELCO</h5>
-                        <div class="chart-container">
-                            <canvas id="codelcoChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Resultados ENAP</h5>
-                        <div class="chart-container">
-                            <canvas id="enapChart"></canvas>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <!-- Deuda y Activos -->
             <div class="tab-pane hidden" id="deuda-activos" role="tabpanel">
                 <!-- KPIs Deuda -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
                         <div class="indicator-label">Deuda Interna</div>
                         <div class="indicator-value" id="deudaInterna">$65,234,567 M</div>
@@ -681,11 +669,33 @@
                     </div>
                 </div>
 
-                <!-- Detalles de Deuda -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Perfil de Vencimientos</h5>
-                        <div class="table-responsive">
+                <!-- Gráficos de Deuda y Activos -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Evolución Deuda Bruta
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="deudaBrutaChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Activos Financieros
+                        </h3>
+                        <div class="h-[400px]">
+                            <canvas id="activosFinancierosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tablas de detalle -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Perfil de Vencimientos
+                        </h3>
+                        <div class="overflow-x-auto">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -724,9 +734,11 @@
                             </table>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Composición de Activos Financieros</h5>
-                        <div class="table-responsive">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                            Composición de Activos Financieros
+                        </h3>
+                        <div class="overflow-x-auto">
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -757,18 +769,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Evolución Deuda Bruta</h5>
-                        <div class="chart-container">
-                            <canvas id="deudaBrutaChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
-                        <h5 class="card-title">Activos Financieros</h5>
-                        <div class="chart-container">
-                            <canvas id="activosFinancierosChart"></canvas>
                         </div>
                     </div>
                 </div>
