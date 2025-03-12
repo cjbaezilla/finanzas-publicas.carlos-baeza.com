@@ -58,32 +58,58 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <!-- Filtros para desktop -->
+        <!-- Filtros mejorados -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" for="yearFilter">Año</label>
-                    <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" id="yearFilter">
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                        <option value="2019">2019</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
-                        <option value="2016">2016</option>
-                        <option value="2015">2015</option>
-                        <option value="2014">2014</option>
-                    </select>
+            <div class="flex items-center mb-4">
+                <i class="bi bi-funnel-fill text-primary text-lg mr-2"></i>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Filtros de Visualización</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center" for="yearFilter">
+                        <i class="bi bi-calendar-event text-primary mr-2"></i>
+                        Año
+                    </label>
+                    <div class="relative">
+                        <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pl-4 pr-10 py-2.5 appearance-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200" id="yearFilter">
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <i class="bi bi-chevron-down text-gray-500 dark:text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" for="tipoGobiernoFilter">Tipo de Gobierno</label>
-                    <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" id="tipoGobiernoFilter">
-                        <option value="total">Gobierno Central Total</option>
-                        <option value="presupuestario">Gobierno Central Presupuestario</option>
-                        <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
-                    </select>
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center" for="tipoGobiernoFilter">
+                        <i class="bi bi-building text-primary mr-2"></i>
+                        Tipo de Gobierno
+                    </label>
+                    <div class="relative">
+                        <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pl-4 pr-10 py-2.5 appearance-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200" id="tipoGobiernoFilter">
+                            <option value="total">Gobierno Central Total</option>
+                            <option value="presupuestario">Gobierno Central Presupuestario</option>
+                            <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <i class="bi bi-chevron-down text-gray-500 dark:text-gray-400"></i>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    <i class="bi bi-info-circle text-primary mr-1"></i>
+                    Seleccione el año y tipo de gobierno para visualizar los datos correspondientes.
+                </p>
             </div>
         </div>
 
