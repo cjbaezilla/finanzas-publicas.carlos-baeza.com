@@ -52,54 +52,14 @@
                         <i class="bi bi-sun-fill dark:hidden text-lg"></i>
                         <i class="bi bi-moon-fill hidden dark:inline text-lg"></i>
                     </button>
-                    <button class="lg:hidden p-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white rounded-full transition-all duration-300 hover:shadow-md hover:scale-105" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
-                        <i class="bi bi-sliders text-lg"></i>
-                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <!-- Filtros para móvil -->
-        <div class="offcanvas offcanvas-start lg:hidden" tabindex="-1" id="filtersOffcanvas">
-            <div class="p-4 bg-white dark:bg-gray-800">
-                <div class="flex justify-between items-center mb-4">
-                    <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Filtros</h5>
-                    <button type="button" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white" data-bs-dismiss="offcanvas">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" for="yearFilterMobile">Año</label>
-                        <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" id="yearFilterMobile">
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                            <option value="2021">2021</option>
-                            <option value="2020">2020</option>
-                            <option value="2019">2019</option>
-                            <option value="2018">2018</option>
-                            <option value="2017">2017</option>
-                            <option value="2016">2016</option>
-                            <option value="2015">2015</option>
-                            <option value="2014">2014</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" for="tipoGobiernoFilterMobile">Tipo de Gobierno</label>
-                        <select class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" id="tipoGobiernoFilterMobile">
-                            <option value="total">Gobierno Central Total</option>
-                            <option value="presupuestario">Gobierno Central Presupuestario</option>
-                            <option value="extrapresupuestario">Gobierno Central Extrapresupuestario</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Filtros para desktop -->
-        <div class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" for="yearFilter">Año</label>
@@ -1390,32 +1350,18 @@
 
         // Event listeners para los filtros
         document.addEventListener('DOMContentLoaded', function() {
-            // Sincronizar filtros móviles y desktop
+            // Filtros
             const yearFilter = document.getElementById('yearFilter');
-            const yearFilterMobile = document.getElementById('yearFilterMobile');
             const tipoGobiernoFilter = document.getElementById('tipoGobiernoFilter');
-            const tipoGobiernoFilterMobile = document.getElementById('tipoGobiernoFilterMobile');
 
-            // Sincronizar año
+            // Actualizar año
             yearFilter.addEventListener('change', function(e) {
-                yearFilterMobile.value = e.target.value;
                 updateDashboard(e.target.value, tipoGobiernoFilter.value);
             });
 
-            yearFilterMobile.addEventListener('change', function(e) {
-                yearFilter.value = e.target.value;
-                updateDashboard(e.target.value, tipoGobiernoFilterMobile.value);
-            });
-
-            // Sincronizar tipo de gobierno
+            // Actualizar tipo de gobierno
             tipoGobiernoFilter.addEventListener('change', function(e) {
-                tipoGobiernoFilterMobile.value = e.target.value;
                 updateDashboard(yearFilter.value, e.target.value);
-            });
-
-            tipoGobiernoFilterMobile.addEventListener('change', function(e) {
-                tipoGobiernoFilter.value = e.target.value;
-                updateDashboard(yearFilterMobile.value, e.target.value);
             });
 
             // Función unificada para actualizar el dashboard
