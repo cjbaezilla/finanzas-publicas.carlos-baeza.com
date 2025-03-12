@@ -169,28 +169,40 @@
             <nav class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-1">
                 <ul class="flex space-x-1" id="mainTabs" role="tablist">
                     <li class="flex-1" role="presentation">
-                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium text-gray-900 dark:text-white bg-primary text-white" id="gobierno-central-tab" data-bs-toggle="tab" data-bs-target="#gobierno-central" type="button" role="tab">
+                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out tab-button active" 
+                                data-tab="gobierno-central" 
+                                type="button" 
+                                role="tab">
                             <i class="bi bi-building mr-1"></i>
                             <span class="hidden sm:inline">Gobierno Central</span>
                             <span class="sm:hidden">Central</span>
                         </button>
                     </li>
                     <li class="flex-1" role="presentation">
-                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" id="gobierno-general-tab" data-bs-toggle="tab" data-bs-target="#gobierno-general" type="button" role="tab">
+                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out tab-button" 
+                                data-tab="gobierno-general" 
+                                type="button" 
+                                role="tab">
                             <i class="bi bi-globe mr-1"></i>
                             <span class="hidden sm:inline">Gobierno General</span>
                             <span class="sm:hidden">General</span>
                         </button>
                     </li>
                     <li class="flex-1" role="presentation">
-                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" id="empresas-publicas-tab" data-bs-toggle="tab" data-bs-target="#empresas-publicas" type="button" role="tab">
+                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out tab-button" 
+                                data-tab="empresas-publicas" 
+                                type="button" 
+                                role="tab">
                             <i class="bi bi-briefcase mr-1"></i>
                             <span class="hidden sm:inline">Empresas Públicas</span>
                             <span class="sm:hidden">Empresas</span>
                         </button>
                     </li>
                     <li class="flex-1" role="presentation">
-                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" id="deuda-activos-tab" data-bs-toggle="tab" data-bs-target="#deuda-activos" type="button" role="tab">
+                        <button class="w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ease-in-out tab-button" 
+                                data-tab="deuda-activos" 
+                                type="button" 
+                                role="tab">
                             <i class="bi bi-cash-coin mr-1"></i>
                             <span class="hidden sm:inline">Deuda y Activos</span>
                             <span class="sm:hidden">Deuda</span>
@@ -203,7 +215,7 @@
         <!-- Contenido de las pestañas -->
         <div class="tab-content" id="mainTabContent">
             <!-- Gobierno Central -->
-            <div class="tab-pane fade show active" id="gobierno-central" role="tabpanel">
+            <div class="tab-pane active" id="gobierno-central" role="tabpanel">
                 <!-- Indicadores principales -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
@@ -371,7 +383,7 @@
             </div>
 
             <!-- Gobierno General -->
-            <div class="tab-pane fade" id="gobierno-general">
+            <div class="tab-pane hidden" id="gobierno-general" role="tabpanel">
                 <!-- KPIs Gobierno General -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
@@ -489,7 +501,7 @@
             </div>
 
             <!-- Empresas Públicas -->
-            <div class="tab-pane fade" id="empresas-publicas">
+            <div class="tab-pane hidden" id="empresas-publicas" role="tabpanel">
                 <!-- KPIs Empresas Públicas -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
@@ -628,7 +640,7 @@
             </div>
 
             <!-- Deuda y Activos -->
-            <div class="tab-pane fade" id="deuda-activos">
+            <div class="tab-pane hidden" id="deuda-activos" role="tabpanel">
                 <!-- KPIs Deuda -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-transform hover:scale-105">
@@ -1706,6 +1718,52 @@
             chart.data.datasets[1].data = data.activosFinancieros.pasivos.slice(startIndex);
             chart.data.datasets[2].data = data.activosFinancieros.patrimonioNeto.slice(startIndex);
         }
+
+        // Sistema de pestañas
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            function switchTab(tabId) {
+                // Actualizar botones
+                tabButtons.forEach(button => {
+                    if (button.dataset.tab === tabId) {
+                        button.classList.add('bg-primary', 'text-white');
+                        button.classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:text-gray-900', 'dark:hover:text-white');
+                    } else {
+                        button.classList.remove('bg-primary', 'text-white');
+                        button.classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-gray-900', 'dark:hover:text-white');
+                    }
+                });
+
+                // Actualizar paneles
+                tabPanes.forEach(pane => {
+                    if (pane.id === tabId) {
+                        pane.classList.remove('hidden');
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.add('hidden');
+                        pane.classList.remove('active');
+                    }
+                });
+
+                // Actualizar gráficos si es necesario
+                if (typeof updateCharts === 'function') {
+                    const yearFilter = document.getElementById('yearFilter');
+                    const tipoGobiernoFilter = document.getElementById('tipoGobiernoFilter');
+                    if (yearFilter && tipoGobiernoFilter) {
+                        updateCharts(yearFilter.value, tipoGobiernoFilter.value);
+                    }
+                }
+            }
+
+            // Event listeners para los botones de pestañas
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchTab(button.dataset.tab);
+                });
+            });
+        });
     </script>
 </body>
 </html> 
