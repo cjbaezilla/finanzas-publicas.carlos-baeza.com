@@ -278,18 +278,37 @@
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-all hover:shadow-lg">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                <i class="bi bi-pie-chart me-2"></i>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                                <i class="bi bi-pie-chart text-primary me-2"></i>
                                 Composición de Ingresos Tributarios
                             </h3>
-                            <select class="px-3 py-1 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-                                <option>2023</option>
-                                <option>2022</option>
-                                <option>2021</option>
-                            </select>
+                            <div class="flex items-center space-x-2">
+                                <button id="downloadIngresosTributarios" class="p-2 text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary rounded-lg transition-colors">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                                <select id="yearIngresosTributarios" class="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200">
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="h-[400px]">
+                        <div class="relative h-[400px]">
                             <canvas id="ingresosTributariosChart"></canvas>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Recaudado</div>
+                                <div class="text-lg font-semibold text-gray-900 dark:text-white" id="totalIngresosTributarios">$49,840,806 M</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">% del PIB</div>
+                                <div class="text-lg font-semibold text-gray-900 dark:text-white" id="pibIngresosTributarios">20.3%</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Var. Anual</div>
+                                <div class="text-lg font-semibold text-success" id="varIngresosTributarios">+5.2%</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1478,14 +1497,75 @@
                     datasets: [{
                         data: data.ingresosTributarios.data,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 205, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 159, 64, 0.8)'
-                        ]
+                            'rgba(13, 110, 253, 0.8)',  // primary
+                            'rgba(25, 135, 84, 0.8)',   // success
+                            'rgba(255, 193, 7, 0.8)',   // warning
+                            'rgba(13, 202, 240, 0.8)',  // info
+                            'rgba(108, 117, 125, 0.8)', // secondary
+                            'rgba(220, 53, 69, 0.8)'    // danger
+                        ],
+                        borderColor: [
+                            'rgb(13, 110, 253)',  // primary
+                            'rgb(25, 135, 84)',   // success
+                            'rgb(255, 193, 7)',   // warning
+                            'rgb(13, 202, 240)',  // info
+                            'rgb(108, 117, 125)', // secondary
+                            'rgb(220, 53, 69)'    // danger
+                        ],
+                        borderWidth: 1,
+                        hoverOffset: 15
                     }]
+                }, {
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${context.label}: ${formatCurrency(value)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                });
+
+                // Agregar evento de descarga para el gráfico
+                document.getElementById('downloadIngresosTributarios').addEventListener('click', function() {
+                    const canvas = document.getElementById('ingresosTributariosChart');
+                    const image = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.download = 'ingresos-tributarios.png';
+                    link.href = image;
+                    link.click();
+                });
+
+                // Agregar evento para actualizar el gráfico cuando cambie el año
+                document.getElementById('yearIngresosTributarios').addEventListener('change', function(e) {
+                    // Sincronizar con el filtro principal
+                    const yearFilter = document.getElementById('yearFilter');
+                    yearFilter.value = e.target.value;
+                    
+                    // Disparar el evento change en el filtro principal
+                    yearFilter.dispatchEvent(new Event('change'));
                 });
 
                 // Balance Estructural
@@ -1631,9 +1711,46 @@
             }
         }
 
-        // Funciones de actualización específicas para cada gráfico
         function updateIngresosTributariosChart(chart, yearIndex, factor) {
-            chart.data.datasets[0].data = data.ingresosTributarios.data.map(v => v * factor);
+            // Actualizar datos del gráfico según el año seleccionado
+            const yearData = {
+                2023: [25840123, 17562341, 3421567, 892345, 1234567, 789863],
+                2022: [24580117, 16783452, 3567890, 856734, 1187654, 756432],
+                2021: [22345678, 15678901, 3234567, 789012, 1098765, 687654],
+                2020: [20123456, 14567890, 2987654, 734567, 987654, 645321],
+                2019: [19234567, 13456789, 2876543, 698765, 876543, 612345]
+            };
+            
+            const year = data.years[yearIndex];
+            const currentYearData = yearData[year] || yearData[2023]; // Fallback a 2023 si no hay datos
+            
+            chart.data.datasets[0].data = currentYearData.map(v => v * factor);
+            
+            // Actualizar KPIs relacionados
+            const total = currentYearData.reduce((a, b) => a + b, 0);
+            document.getElementById('totalIngresosTributarios').textContent = formatCurrency(total);
+            
+            const pibPercentage = ((total / macroData[year].pib) * 100).toFixed(1);
+            document.getElementById('pibIngresosTributarios').textContent = `${pibPercentage}%`;
+            
+            // Calcular variación anual
+            if (yearIndex > 0) {
+                const previousYear = data.years[yearIndex - 1];
+                const previousYearData = yearData[previousYear] || yearData[2023];
+                const previousTotal = previousYearData.reduce((a, b) => a + b, 0);
+                const variation = ((total - previousTotal) / previousTotal * 100).toFixed(1);
+                const varElement = document.getElementById('varIngresosTributarios');
+                varElement.textContent = `${variation}%`;
+                varElement.className = `text-lg font-semibold ${variation >= 0 ? 'text-success' : 'text-danger'}`;
+            }
+
+            // Sincronizar el selector específico del gráfico con el filtro principal
+            const yearIngresosTributarios = document.getElementById('yearIngresosTributarios');
+            if (yearIngresosTributarios) {
+                yearIngresosTributarios.value = year.toString();
+            }
+            
+            chart.update();
         }
 
         function updateGastosFuncionalesChart(chart, yearIndex, factor) {
